@@ -915,15 +915,15 @@ TRANSITION vers 7.3 :
 
 # Le vrai coût : un process isolé
 
-<div class="text-gray-500 italic text-sm mb-2">
+<div class="text-gray-500 italic text-sm mb-1">
 Le bug technique était gérable. Le vrai problème était ailleurs.
 </div>
 
-<div class="text-center text-lg font-medium uppercase tracking-wider text-gray-700 mb-3">
+<div class="text-center text-sm font-medium uppercase tracking-wider text-gray-700 mb-2">
 Comment on a reconstruit la confiance
 </div>
 
-<div class="space-y-3">
+<div class="space-y-2">
 
 <div class="flex items-center gap-4 bg-blue-50 p-3 rounded-lg">
 <div class="text-3xl shrink-0">📢</div>
