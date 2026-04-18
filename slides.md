@@ -867,9 +867,9 @@ _Du clic "Run workflow" au "✅ en prod" : ~4-5 minutes_
 
 # Le vrai défi : embarquer les leads
 
-<div class="mt-8 space-y-5">
+<div class="mt-4 space-y-3">
 
-<div class="bg-gray-50 border-l-4 border-gray-300 p-4">
+<div class="bg-gray-50 border-l-4 border-gray-300 p-3">
 
 <div class="uppercase tracking-wider text-xs text-gray-500 mb-1">Décor</div>
 
@@ -877,7 +877,7 @@ Nouvel arrivant. Une équipe en place, 3 ans de process installés. J'arrive ave
 
 </div>
 
-<div class="bg-red-50 border-l-4 border-red-400 p-4">
+<div class="bg-red-50 border-l-4 border-red-400 p-3">
 
 <div class="uppercase tracking-wider text-xs text-red-500 mb-1">Drame</div>
 
@@ -886,7 +886,7 @@ Au démarrage : des bugs, des comportements inattendus. Un tag qui pointe trop l
 
 </div>
 
-<div class="bg-amber-50 border-l-4 border-amber-400 p-4">
+<div class="bg-amber-50 border-l-4 border-amber-400 p-3">
 
 <div class="uppercase tracking-wider text-xs text-amber-700 mb-1">Le vrai enjeu</div>
 
