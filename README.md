@@ -57,7 +57,7 @@ Soit chaque slide commence par `# Titre`, soit elle a un frontmatter `---\nlayou
 ### Contenu
 - [x] Vrais chiffres dans la slide "18 mois plus tard" ({X})
 - [ ] 1 verbatim restant (lead tech)
-- [X] `qr-feedback.svg` (QR réel vers formulaire)
+- [x] `qr-feedback.svg` (QR réel vers formulaire)
 
 ### Package
 - [ ] Publier `@{handle}/meta` sur npm (alpha)
@@ -65,9 +65,9 @@ Soit chaque slide commence par `# Titre`, soit elle a un frontmatter `---\nlayou
 - [ ] Remplacer tous les `{handle}` et `{date}` dans slides.md
 
 ### Sur place
-- [X] QR testé depuis 5m avec 3 téléphones
+- [x] QR testé depuis 5m avec 3 téléphones
 - [ ] Répétition chronométrée
-- [ ] PDF backup sur clé USB (`pnpm export`)
+- [x] PDF backup sur clé USB (`pnpm export`)
 
 ## 📂 Structure
 
