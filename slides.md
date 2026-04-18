@@ -1075,7 +1075,7 @@ PÉPITE : "Les personnes les plus sceptiques au début sont celles qui s'inquiè
 <div class="space-y-2 mt-3">
 
 <div class="border rounded-lg p-3 flex gap-3 items-start">
-<div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shrink-0">photo</div>
+<img src="/solene.png" class="w-9 h-9 rounded-full object-cover shrink-0" />
 <div class="flex-1">
 
 **Solène Oruezabal** — <span class="text-sm text-gray-500">Équipe produit</span>
@@ -1086,7 +1086,7 @@ PÉPITE : "Les personnes les plus sceptiques au début sont celles qui s'inquiè
 </div>
 
 <div class="border rounded-lg p-3 flex gap-3 items-start">
-<div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shrink-0">photo</div>
+<img src="/remi.jpeg" class="w-9 h-9 rounded-full object-cover shrink-0" />
 <div class="flex-1">
 
 **Rémi Poulenard** — <span class="text-sm text-gray-500">Developer · Wealthcome</span>
