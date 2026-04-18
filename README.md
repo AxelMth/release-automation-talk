@@ -57,8 +57,7 @@ Soit chaque slide commence par `# Titre`, soit elle a un frontmatter `---\nlayou
 ### Contenu
 - [x] Vrais chiffres dans la slide "18 mois plus tard" ({X})
 - [ ] 1 verbatim restant (lead tech)
-- [ ] `qr-feedback.png` (QR réel vers formulaire)
-- [ ] Photos équipe (optionnel) pour les verbatims
+- [ ] `qr-feedback.svg` (QR réel vers formulaire)
 
 ### Package
 - [ ] Publier `@{handle}/meta` sur npm (alpha)

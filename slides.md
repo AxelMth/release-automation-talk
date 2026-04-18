@@ -43,8 +43,9 @@ layout: cover
 
 <div class="text-2xl text-gray-400 font-light mt-2">Se simplifier la vie avec Github Actions</div>
 
-<div class="absolute bottom-14 left-16 text-gray-500">
-<span class="font-medium text-gray-700">Axel Mathieu-Le Gall</span> · Senior FullStach Developer · Wealthcome
+<div class="absolute bottom-14 left-16 flex items-center gap-4 text-gray-500">
+<img src="/profile-picture.jpeg" class="w-12 h-12 rounded-full object-cover" />
+<span class="font-medium text-gray-700">Axel Mathieu-Le Gall</span> · Senior Fullstack Developer · Wealthcome
 </div>
 
 ---
@@ -1286,11 +1287,9 @@ class: text-center
 
 <div class="flex flex-col items-center">
 
-<div class="w-56 h-56 bg-gray-200 border-4 border-gray-300 rounded flex items-center justify-center text-gray-500 text-sm">
-📷 QR CODE<br/>qr-feedback.png
-</div>
+<img src="/qr-feedback.svg" class="w-56 h-56" />
 
-<div class="mt-4 text-lg text-gray-600">
+<div class="mt-4 text-base text-gray-600 text-center w-56">
 ↑ Ton retour sur ce talk (2 min)
 </div>
 
@@ -1298,15 +1297,19 @@ class: text-center
 
 <div class="text-left">
 
-<div class="text-3xl font-semibold">{Prénom Nom}</div>
-
-<div class="text-xl text-gray-500">Lead Tech · Wealthcome</div>
+<div class="flex items-center gap-5 mb-4">
+<img src="/profile-picture.jpeg" class="w-24 h-24 rounded-full object-cover flex-shrink-0" />
+<div>
+<div class="text-xl font-semibold leading-snug">Axel Mathieu-Le Gall</div>
+<div class="text-sm text-gray-500 mt-1">Senior Fullstack Developer · Wealthcome</div>
+</div>
+</div>
 
 <div class="pt-8 space-y-3 text-lg">
 
-💼 linkedin.com/in/{handle}
+💼 https://linkedin.com/in/axel-mathieu-le-gall-361b1510a
 
-💻 github.com/{handle}
+💻 https://github.com/AxelMth
 
 </div>
 
@@ -1324,5 +1327,5 @@ Oral :
 
 PÉPITE Q&A : "Celles auxquelles je ne sais pas répondre, je vous dis 'je ne sais pas' — on en discute après."
 
-⚠️ TODO : {Prénom Nom}, {handle}, qr-feedback.png
+⚠️ TODO : {Prénom Nom}, {handle}, qr-feedback.svg
 -->

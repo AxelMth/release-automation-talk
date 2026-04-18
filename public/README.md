@@ -4,7 +4,7 @@ Ce dossier doit contenir les fichiers suivants avant la présentation :
 
 ## Obligatoires
 
-- `qr-feedback.png` — QR code vers le formulaire de retour (slide 10)
+- `qr-feedback.svg` — QR code vers le formulaire de retour (slide 10)
 - `screenshot-github-actions.png` — Screenshot des 3 jobs matrix ✅ (slide 6.8)
 - `screenshot-release-draft.png` — Screenshot d'une release en Draft (slide 6.8)
 - `screenshot-slack-deploy.png` — Screenshot d'un fil Slack #deploy (🚀 → ✅) (slide 6.8)
