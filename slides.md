@@ -1072,12 +1072,10 @@ PÉPITE : "Les personnes les plus sceptiques au début sont celles qui s'inquiè
 
 # Ce que l'équipe en dit
 
-<div class="space-y-3 mt-4">
+<div class="space-y-2 mt-3">
 
 <div class="border rounded-lg p-3 flex gap-3 items-start">
-<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shrink-0">
-photo
-</div>
+<div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shrink-0">photo</div>
 <div class="flex-1">
 
 **Solène Oruezabal** — <span class="text-sm text-gray-500">Équipe produit</span>
@@ -1088,25 +1086,21 @@ photo
 </div>
 
 <div class="border rounded-lg p-3 flex gap-3 items-start">
-<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shrink-0">
-photo
-</div>
+<div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shrink-0">photo</div>
 <div class="flex-1">
 
 **Rémi Poulenard** — <span class="text-sm text-gray-500">Developer · Wealthcome</span>
 
-<span class="text-sm text-gray-400 italic">"La mise en place de notre nouveau processus d'automatisation a profondément transformé notre manière de travailler. Les déploiements, désormais simplifiés, génèrent moins de conflits et mobilisent moins de temps de gestion. Résultat : une équipe plus confiante et une vélocité de livraison nettement améliorée."</span>
+<span class="text-sm text-gray-400 italic">"Les déploiements sont désormais simplifiés, génèrent moins de conflits et mobilisent moins de temps. Résultat : une équipe plus confiante et une vélocité de livraison nettement améliorée."</span>
 
 </div>
 </div>
 
 <div class="border rounded-lg p-3 flex gap-3 items-start">
-<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shrink-0">
-photo
-</div>
+<div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shrink-0">photo</div>
 <div class="flex-1">
 
-**{Axel Mathieu-Le Gall}** — <span class="text-sm text-gray-500">Lead Tech</span>
+**{Prénom Nom}** — <span class="text-sm text-gray-500">Lead Tech</span>
 
 <span class="text-sm text-gray-400 italic">[verbatim à collecter]</span>
 
