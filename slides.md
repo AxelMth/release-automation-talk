@@ -471,7 +471,7 @@ TRANSITION : "Voilà l'architecture. Un repo, un descripteur, des scripts. La ma
 
 <div class="text-sm text-gray-500 mb-4">La décision architecturale clé.</div>
 
-```mermaid {scale: 0.62}
+```mermaid {scale: 0.52}
 flowchart TD
     A[👤 workflow_dispatch] --> B[prepare<br/>lit repos.json]
     B --> C{matrix}
@@ -865,15 +865,15 @@ _Du clic "Run workflow" au "✅ en prod" : ~4-5 minutes_
 
 ---
 
-# Le vrai blocker, c'était pas la technique
+# Le vrai défi : embarquer les leads
 
-<div class="mt-8 space-y-6">
+<div class="mt-8 space-y-5">
 
 <div class="bg-gray-50 border-l-4 border-gray-300 p-4">
 
 <div class="uppercase tracking-wider text-xs text-gray-500 mb-1">Décor</div>
 
-Une équipe en place. 3 ans de process installé. Moi, nouvel arrivant, qui arrive avec ma solution.
+Nouvel arrivant. Une équipe en place, 3 ans de process installés. J'arrive avec ma solution d'automatisation.
 
 </div>
 
@@ -881,66 +881,34 @@ Une équipe en place. 3 ans de process installé. Moi, nouvel arrivant, qui arri
 
 <div class="uppercase tracking-wider text-xs text-red-500 mb-1">Drame</div>
 
-2 mois de friction. Meetings qui tournent au vinaigre. Un senior qui me dit : *"On a toujours fait comme ça."*
-
-</div>
-
-<div class="bg-green-50 border-l-4 border-green-500 p-4">
-
-<div class="uppercase tracking-wider text-xs text-green-700 mb-1">Leçon</div>
-
-*[à remplir : ton vrai déclic — un pair qui t'a rejoint ? Un petit succès visible ? Une démo concrète ?]*
-
-</div>
-
-</div>
-
-<!--
-Oral (1m) :
-- "Première galère : convaincre l'équipe."
-- [Tone : 'j'ai mal amené le sujet au début' plutôt que 'ils ne voulaient rien entendre']
-
-⚠️ TODO : préciser la leçon avec ton vrai déclic
--->
-
----
-
-# Quand le tag a pointé trop loin
-
-<div class="mt-8 space-y-6">
-
-<div class="bg-gray-50 border-l-4 border-gray-300 p-4">
-
-<div class="uppercase tracking-wider text-xs text-gray-500 mb-1">Décor</div>
-
-L'automatisation tourne depuis plusieurs semaines. L'équipe lâche prise, fait confiance. Les releases s'enchaînent sans accroc.
-
-</div>
-
-<div class="bg-red-50 border-l-4 border-red-400 p-4">
-
-<div class="uppercase tracking-wider text-xs text-red-500 mb-1">Drame</div>
-
-Une release part. Le tag est créé automatiquement… mais il pointe **plus loin** que prévu dans l'historique. Des commits non prêts se retrouvent en prod.
+Au démarrage : des bugs, des comportements inattendus. Un tag qui pointe trop loin, une release qui part avec des commits non prêts.<br/>
+→ Les leads se braquent. *"On te l'avait dit. On a toujours fait comme ça."*
 
 </div>
 
 <div class="bg-amber-50 border-l-4 border-amber-400 p-4">
 
-<div class="uppercase tracking-wider text-xs text-amber-700 mb-1">Impact</div>
+<div class="uppercase tracking-wider text-xs text-amber-700 mb-1">Le vrai enjeu</div>
 
-*[à remplir : rollback ? feature incomplète visible ? incident client ? temps perdu à diagnostiquer ?]*
+La technique, on l'a corrigée en quelques jours.<br/>
+**Regagner la confiance des leads a pris des mois.**
 
 </div>
 
 </div>
 
 <!--
-Oral (1m-1m15) :
-- "Le bug technique. Un tag qui pointe plus loin dans l'historique."
-- [Expliquer en 1 phrase pourquoi : logique de tag mal pensée ? hypothèse fausse sur l'ordre des commits ?]
+Oral (1m30) :
+- "La plus grosse galère, ce n'était pas la technique."
+- "C'était d'embarquer les leads."
+- "Au démarrage, l'automatisation a eu ses bugs — un tag qui pointe trop loin, une release qui embarque des commits pas prêts."
+- "Et chaque incident, même mineur, a renforcé les sceptiques : 'on te l'avait dit'."
+- "Le bug technique, on le patche en 2 jours."
+- "La confiance perdue, ça prend des mois à reconstruire."
+- [Tone : 'j'ai mal amené le sujet au début' plutôt que 'ils ne voulaient rien entendre']
 
-⚠️ TODO : préciser l'impact concret
+TRANSITION vers 7.3 :
+"Voilà comment on a fait."
 -->
 
 ---
