@@ -82,4 +82,3 @@ Soit chaque slide commence par `# Titre`, soit elle a un frontmatter `---\nlayou
 ├── package.json
 └── .gitignore
 ```
-# release-automation-talk
