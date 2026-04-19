@@ -1153,63 +1153,76 @@ Oral (1m) :
 
 PÉPITE : "L'automatisation réussie, c'est celle qui rend le travail des autres plus léger."
 -->
-
 ---
 
-# Je release : `@{handle}/meta`
+# Je release : `@axelmth/repoflow`
 
-<div class="grid grid-cols-3 gap-6 mt-12">
+<div class="text-center text-lg text-gray-600 italic mt-4 mb-8">
+Orchestrer des meta-repositories, en ligne de commande.
+</div>
+
+<div class="grid grid-cols-3 gap-6">
 
 <div class="border rounded-lg p-6">
 
-<div class="text-3xl mb-2">🎯</div>
+<div class="text-3xl mb-2">🏗️</div>
 
-**Opinionated**
+**Bootstrap**
 
-<span class="text-sm text-gray-600">pnpm workspaces + GitHub Actions + release orchestrées</span>
+<span class="text-sm text-gray-600">`repoflow init` — config générée par wizard interactif en 2 minutes</span>
 
 </div>
 
 <div class="border rounded-lg p-6">
+
+<div class="text-3xl mb-2">🔁</div>
+
+**Orchestration**
+
+<span class="text-sm text-gray-600">`sync`, `status`, `exec`, `doctor` — les commandes classiques sur N repos d'un coup</span>
+
+</div>
+
+<div class="border rounded-lg p-6 bg-amber-50 border-amber-200">
 
 <div class="text-3xl mb-2">🚀</div>
 
-**Out-of-the-box**
+**Release flow**
 
-<span class="text-sm text-gray-600">Workflows de release, tagging RC/prod, notifs Slack</span>
+<span class="text-sm text-gray-600">Tagging RC/prod, changelog agrégé, Slack, Actions réutilisables — *à venir en v0.2*</span>
+
+</div>
 
 </div>
 
-<div class="border rounded-lg p-6">
+<div class="mt-8 bg-gray-50 border rounded-lg p-4 text-sm">
 
-<div class="text-3xl mb-2">🔌</div>
-
-**Extensible**
-
-<span class="text-sm text-gray-600">Hooks pour brancher Notion, Linear, Jira ou custom</span>
-
-</div>
+```bash
+npm i -g @axelmth/repoflow
+```
 
 </div>
 
 <!--
 Oral (1m) :
-- "30 minutes de récit → abstraction. Donc je release le pkg qui en extrait le cœur."
-- "Opinionated, out-of-the-box, extensible."
-- "Honnêteté : alpha aujourd'hui. Version stable en interne, extraction en OSS prend du temps. Stable prévu {date}."
-- "Repo ouvert aux PRs et issues dès aujourd'hui."
+- "Depuis 17h, le package est publié sur npm. v0.1.0 — pre-alpha."
+- "Son job : t'aider à orchestrer des meta-repositories."
+- "Aujourd'hui, 2 piliers prêts à l'emploi :"
+- "   Bootstrap : tu lances repoflow init, wizard interactif, 2 minutes et tu as ton meta-repo."
+- "   Orchestration : les commandes sync, status, exec, doctor — tu pilotes N repos depuis un point central."
+- "Le 3e pilier — le release flow avec le tagging RC/prod et les notifs Slack que je vous ai montré — arrive dans la v0.2."
+- "Je l'utilise en interne depuis 1 mois, l'extraction OSS prend du temps. Repo ouvert aux PRs et issues."
 
-PÉPITE : "Le nom, hommage à Mateo del Norte. Sans son travail il y a 10 ans, on aurait tous réinventé la roue 10 fois. Cette fois, on la fait tourner."
+PÉPITE : "Le nom est un hommage à Mateo del Norte, créateur du package meta il y a 10 ans. Sans son travail, on aurait tous réinventé la roue 10 fois. Cette fois, on la fait tourner."
 
-⚠️ TODO : remplacer {handle} et {date}
 -->
 
 ::footer::
 
 <div class="flex items-center justify-center gap-8">
-<code class="text-xs bg-gray-100 px-2 py-1 rounded">npm i -D @{handle}/meta</code>
-<span class="text-gray-500">🔗 github.com/{handle}/meta</span>
-<span class="text-xs text-gray-400">🧪 alpha · stable prévu {date}</span>
+<code class="text-xs bg-gray-100 px-2 py-1 rounded">npm i -D @axelmth/repoflow</code>
+<span class="text-gray-500">🔗 npmjs.com/package/@axelmth/repoflow</span>
+<span class="text-xs text-gray-400">🧪 pre-alpha · github.com/AxelMth/repoflow</span>
 </div>
 
 ---
@@ -1217,7 +1230,7 @@ PÉPITE : "Le nom, hommage à Mateo del Norte. Sans son travail il y a 10 ans, o
 # Un repo modèle pour commencer
 
 <div class="text-sm text-gray-500 mb-8">
-🔗 github.com/{handle}/meta-examples
+🔗 github.com/AxelMth/repoflow-examples
 </div>
 
 <div class="grid grid-cols-2 gap-6">
@@ -1243,7 +1256,7 @@ PÉPITE : "Le nom, hommage à Mateo del Norte. Sans son travail il y a 10 ans, o
 **metarepo-example**
 
 - pnpm workspaces
-- `@{handle}/meta` (releases)
+- `@axelmth/repoflow` (releases)
 - 3 apps clonées via repos.json
 
 <span class="text-gray-500 italic text-sm">← notre approche</span>
