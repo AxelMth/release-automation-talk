@@ -265,9 +265,9 @@ Oral (1m30) :
 
 # Ce qu'on cherchait à résoudre
 
-<div class="space-y-7 mt-8">
+<div class="space-y-4 mt-4">
 
-<div class="flex items-start gap-6">
+<div class="flex items-start gap-2">
 <div class="text-3xl">🎯</div>
 <div>
 
@@ -278,7 +278,7 @@ Oral (1m30) :
 </div>
 </div>
 
-<div class="flex items-start gap-6">
+<div class="flex items-start gap-2">
 <div class="text-3xl">🔗</div>
 <div>
 
@@ -289,7 +289,7 @@ Oral (1m30) :
 </div>
 </div>
 
-<div class="flex items-start gap-6">
+<div class="flex items-start gap-2">
 <div class="text-3xl">📊</div>
 <div>
 
@@ -1016,7 +1016,7 @@ Oral (30-45s) — slide-respiration :
 <div class="text-center">
 
 <div class="text-5xl font-light tracking-tight">
-<span class="text-gray-400">6</span> → 7
+<span class="text-gray-400">×4</span>
 </div>
 
 <div class="text-sm uppercase tracking-wider text-gray-500 mt-3">MEPs prod / semaine</div>
@@ -1045,25 +1045,23 @@ Oral (30-45s) — slide-respiration :
 
 </div>
 
-<div class="mt-16 border rounded-lg p-6 text-center text-gray-700 space-y-2">
+<div class="mt-10 border rounded-lg p-5 text-center text-gray-700 space-y-2">
 
-~**14 heures** d'équipe gagnées par semaine
+Prod <span class="font-semibold">×4 plus fréquent</span> <span class="text-gray-500">(1.3 → 5.7 MEPs/sem)</span> · pipeline <span class="font-semibold">17min → 12min</span> <span class="text-gray-500">(-29%)</span>
 
-Pipeline prod <span class="font-semibold">18min → 12min</span> <span class="text-gray-500">(-33%)</span> · web <span class="font-semibold">33min → 17min</span> <span class="text-gray-500">(-48%)</span>
+Hotfixes <span class="font-semibold text-green-700">36 → 3</span> <span class="text-gray-500">(-91%)</span>
 
-Préprod **×1,6** — 15 → 25 déploiements/semaine
-
-**0 hotfix perdu** depuis le déploiement
+Taux de succès CI prod <span class="font-semibold text-green-700">~70% → 100%</span>
 
 </div>
 
 <!--
 Oral (1m) :
 - "3 chiffres. Volume, vitesse, humain."
-- "Fréquence prod quasi-identique — 6 → 7/semaine. La différence, c'est ce que ça coûte : 6 MEPs × 45min × 3 personnes = 850 person-minutes avant. Aujourd'hui 7 × 4min × 1 = 28. Soit ~14 heures d'équipe rendues chaque semaine."
-- "45 min → 4. 3 personnes → 1. Et les pipelines eux-mêmes sont plus rapides : prod 18min → 12min en moyenne, web de 33min à 17min."
-- "La préprod, elle, a doublé. 15 → 25 déploiements/semaine. Ça veut dire que l'équipe valide plus souvent, plus tôt."
-- "Et 0 hotfix perdu depuis qu'on a lancé."
+- "Fréquence prod ×4 — 1.3 → 5.7 MEPs/semaine. Et chaque MEP coûte 45min × 3 personnes avant, 4min × 1 aujourd'hui."
+- "Les pipelines eux-mêmes sont plus rapides : prod 17min → 12min en moyenne (-29%)."
+- "La préprod : ×3.3. 7.5 → 24.7 déploiements/semaine. L'équipe valide plus souvent, plus tôt."
+- "Et les hotfixes : 36 → 3 (-91%). Pas que des hotfix bien gérés — des hotfix qui n'ont plus besoin d'exister, parce que main est toujours à jour."
 
 PÉPITE : "Les personnes les plus sceptiques au début sont celles qui s'inquiètent aujourd'hui si le pipeline a 5 min de retard."
 -->
@@ -1097,12 +1095,12 @@ PÉPITE : "Les personnes les plus sceptiques au début sont celles qui s'inquiè
 </div>
 
 <div class="border rounded-lg p-3 flex gap-3 items-start">
-<div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 shrink-0">photo</div>
+<img src="/martin.jpeg" class="w-9 h-9 rounded-full object-cover shrink-0" />
 <div class="flex-1">
 
-**{Prénom Nom}** — <span class="text-sm text-gray-500">Lead Tech</span>
+**Martin Pinaud** — <span class="text-sm text-gray-500">Équipe produit</span>
 
-<span class="text-sm text-gray-400 italic">[verbatim à collecter]</span>
+<span class="text-sm italic">"La chose qui a changé depuis qu'on a le nouveau process, c'est l'organisation. On teste plus facilement, on a une meilleure visualisation de tout ce qui passe en prod/preprod. Pour faire des retours à la direction sur les nouveautés des mises en prod, c'est beaucoup plus simple. En gros, ça simplifie le workflow interne de l'entreprise."</span>
 
 </div>
 </div>
