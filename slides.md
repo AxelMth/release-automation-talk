@@ -1070,53 +1070,88 @@ PÉPITE : "Les personnes les plus sceptiques au début sont celles qui s'inquiè
 
 # Ce que l'équipe en dit
 
-<div class="space-y-2 mt-3">
+<div class="flex flex-col items-center justify-center mt-6">
 
-<div class="border rounded-lg p-3 flex gap-3 items-start">
-<img src="/solene.png" class="w-9 h-9 rounded-full object-cover shrink-0" />
-<div class="flex-1">
+<Transition name="testimony" mode="out-in">
+  <div :key="current" class="border rounded-xl p-6 flex flex-col gap-4 w-full max-w-xl shadow-sm">
+    <span class="text-base italic text-gray-700 leading-relaxed">"{{ testimonies[current].quote }}"</span>
+    <div class="flex items-center gap-3 mt-2">
+      <img :src="testimonies[current].img" class="w-10 h-10 rounded-full object-cover shrink-0" />
+      <div>
+        <div class="font-semibold text-sm">{{ testimonies[current].name }}</div>
+        <div class="text-xs text-gray-500">{{ testimonies[current].role }}</div>
+      </div>
+    </div>
+  </div>
+</Transition>
 
-**Solène Oruezabal** — <span class="text-sm text-gray-500">Équipe produit</span>
-
-<span class="text-sm italic">"Depuis le changement, c'est clairement la charge mentale qui a changé. Je sais que c'est automatique — plus besoin de relancer 25 fois les équipes dans la journée."</span>
-
-</div>
-</div>
-
-<div class="border rounded-lg p-3 flex gap-3 items-start">
-<img src="/remi.jpeg" class="w-9 h-9 rounded-full object-cover shrink-0" />
-<div class="flex-1">
-
-**Rémi Poulenard** — <span class="text-sm text-gray-500">Developer · Wealthcome</span>
-
-<span class="text-sm text-gray-400 italic">"Les déploiements sont désormais simplifiés, génèrent moins de conflits et mobilisent moins de temps. Résultat : une équipe plus confiante et une vélocité de livraison nettement améliorée."</span>
-
-</div>
-</div>
-
-<div class="border rounded-lg p-3 flex gap-3 items-start">
-<img src="/martin.jpeg" class="w-9 h-9 rounded-full object-cover shrink-0" />
-<div class="flex-1">
-
-**Martin Pinaud** — <span class="text-sm text-gray-500">Équipe produit</span>
-
-<span class="text-sm italic">"La chose qui a changé depuis qu'on a le nouveau process, c'est l'organisation. On teste plus facilement, on a une meilleure visualisation de tout ce qui passe en prod/preprod. Pour faire des retours à la direction sur les nouveautés des mises en prod, c'est beaucoup plus simple. En gros, ça simplifie le workflow interne de l'entreprise."</span>
-
-</div>
+<div class="flex gap-2 mt-6">
+  <button v-for="(_, i) in testimonies" :key="i" @click="goTo(i)"
+    class="w-2 h-2 rounded-full transition-colors duration-300"
+    :class="i === current ? 'bg-gray-700' : 'bg-gray-300'" />
 </div>
 
 </div>
+
+<style>
+.testimony-enter-active, .testimony-leave-active { transition: opacity 0.5s, transform 0.5s; }
+.testimony-enter-from { opacity: 0; transform: translateY(12px); }
+.testimony-leave-to { opacity: 0; transform: translateY(-12px); }
+</style>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const testimonies = [
+  {
+    name: 'Solène Oruezabal',
+    role: 'Équipe produit',
+    img: '/solene.png',
+    quote: "Depuis le changement, c'est clairement la charge mentale qui a changé. Je sais que c'est automatique — plus besoin de relancer 25 fois les équipes dans la journée.",
+  },
+  {
+    name: 'Rémi Poulenard',
+    role: 'Developer · Wealthcome',
+    img: '/remi.jpeg',
+    quote: "Les déploiements sont désormais simplifiés, génèrent moins de conflits et mobilisent moins de temps. Résultat : une équipe plus confiante et une vélocité de livraison nettement améliorée.",
+  },
+  {
+    name: 'Martin Pinaud',
+    role: 'Équipe produit',
+    img: '/martin.jpeg',
+    quote: "La chose qui a changé depuis qu'on a le nouveau process, c'est l'organisation. On teste plus facilement, on a une meilleure visualisation de tout ce qui passe en prod/preprod. Pour faire des retours à la direction sur les nouveautés des mises en prod, c'est beaucoup plus simple.",
+  },
+  {
+    name: 'Jonathan Lacoste',
+    role: 'CPO · Wealthcome',
+    img: '/jonathan.jpeg',
+    quote: "Clairement le changelog clair des MEP et la rapidité d'exécution. La régularité des preprod. Le staging pour environnement de test des nouvelles features. On maîtrise ce qui se passe !",
+  },
+]
+
+const current = ref(0)
+let timer
+
+function goTo(i) {
+  current.value = i
+  clearInterval(timer)
+  timer = setInterval(next, 4000)
+}
+
+function next() {
+  current.value = (current.value + 1) % testimonies.length
+}
+
+onMounted(() => { timer = setInterval(next, 4000) })
+onUnmounted(() => clearInterval(timer))
+</script>
 
 <!--
 Oral (1m) :
 - "Les chiffres, c'est une chose. Ce qui me rend fier, c'est d'entendre l'équipe."
-- [Lire Solène]
-- "Elle parle de charge mentale. Pas de vitesse, pas de tech. De charge mentale. Relançait 25 fois par jour, maintenant elle n'y pense plus. Le vrai gain : dans le cerveau des gens qui travaillent avec nous."
-- [Lire les 2 autres]
+- "Elle parle de charge mentale. Pas de vitesse, pas de tech. De charge mentale."
 
 PÉPITE : "L'automatisation réussie, c'est celle qui rend le travail des autres plus léger."
-
-⚠️ TODO : 2 verbatims manquants
 -->
 
 ---
