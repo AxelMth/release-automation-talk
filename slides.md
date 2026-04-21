@@ -2,10 +2,10 @@
 theme: default
 title: Automatisation des MEPs
 info: |
-  Comment on est passés de 45 minutes / 3 personnes par MEP
-  à 4 minutes / 1 clic.
-author: '{Axel Mathieu-Le Gall}'
-keywords: ci-cd,automation,github-actions,meta-repository,devops
+  Automatiser ses MEPs avec GitHub Actions et repoflow.
+  Retour d'expérience et méthode transposable.
+author: 'Axel Mathieu-Le Gall'
+keywords: ci-cd,automation,github-actions,meta-repository,devops,repoflow
 colorSchema: light
 transition: fade
 mdc: true
@@ -41,7 +41,7 @@ layout: cover
 
 # Automatiser les MEPs
 
-<div class="text-2xl text-gray-400 font-light mt-2">Se simplifier la vie avec Github Actions</div>
+<div class="text-2xl text-gray-400 font-light mt-2">Avec GitHub Actions et <code>repoflow</code></div>
 
 <div class="absolute bottom-14 left-16 flex items-center gap-4 text-gray-500">
 <img src="/profile-picture.jpeg" class="w-12 h-12 rounded-full object-cover" />
@@ -50,72 +50,97 @@ layout: cover
 
 ---
 
-<!-- SLIDE 2 : HOOK -->
+<!-- SLIDE 2 : HOOK — Les chiffres directement -->
 
 <div class="h-full flex flex-col justify-center items-center text-center px-20">
 
-<div v-click class="mb-14">
-  <p class="text-4xl font-light tracking-tight mb-3">45 minutes pour une mise en prod.</p>
-  <p class="text-xl text-gray-500 font-light">3 personnes mobilisées.</p>
+<div class="text-sm uppercase tracking-widest text-gray-400 mb-8">1 mois après la bascule</div>
+
+<div v-click class="mb-10">
+  <p class="text-6xl font-light tracking-tight">×4</p>
+  <p class="text-lg text-gray-500 font-light mt-2">MEPs prod / semaine</p>
+</div>
+
+<div v-click class="mb-10">
+  <p class="text-6xl font-light tracking-tight">100%</p>
+  <p class="text-lg text-gray-500 font-light mt-2">de succès en prod (vs 70% avant)</p>
 </div>
 
 <div v-click>
-  <p class="text-4xl font-light tracking-tight mb-3">Aujourd'hui : <span class="font-medium">4 minutes</span>.</p>
-  <p class="text-xl text-gray-500 font-light">1 clic et c'est tout</p>
+  <p class="text-6xl font-light tracking-tight">1 dev · 2 clics</p>
+  <p class="text-lg text-gray-500 font-light mt-2">vs 3 personnes · 45 minutes</p>
 </div>
 
 </div>
 
 <!--
 Phase 1 (0-5s) — Silence d'entrée.
-Phase 2 (5-12s) — Premier bloc. "45 minutes..." [pause] "3 personnes mobilisées."
-Phase 3 (12-20s) — Respiration 2-3s.
-Phase 4 (20-28s) — Second bloc. Descend en intensité jusqu'au murmure sur "attend".
-Phase 5 (28-30s) — "Je m'appelle Axel, et en 30 minutes je vais vous raconter comment on est passés de l'un à l'autre."
+Phase 2 (5-15s) — "×4 plus souvent en prod."
+Phase 3 (15-25s) — "100% de succès. Sur backend on était à 54% avant."
+Phase 4 (25-35s) — "1 dev, 2 clics. Avant c'était 3 personnes, 45 minutes."
+Phase 5 — "Je m'appelle Axel, et en 30 minutes je vais vous raconter comment. Et surtout, comment vous pouvez faire pareil."
+
+CLÉ : On annonce repoflow dès le titre. Le public sait qu'il y a un outil à la fin.
 -->
 
 ---
 
-# Le workflow qu'on avait hérité
+# Wealthcome : 5 repos, 1 équipe
 
-```mermaid {scale: 0.9}
-gitGraph
-   commit id: "v7.0" tag: "prod"
-   branch releases/7.x
-   commit id: "hotfix: login"
-   commit id: "hotfix: payment"
-   checkout main
-   commit id: "feat: dashboard"
-   commit id: "feat: notifs"
-   checkout releases/7.x
-   commit id: "hotfix: export"
-   checkout main
-   merge releases/7.x tag: "merge manuel"
-```
+<div class="grid grid-cols-5 gap-1 mt-4">
 
-- ❌ **Preprod** = env de test + env de démo
-- ❌ **Hotfix** qui ne remontent pas dans `main`
-- ❌ Quelqu'un joue les **plombiers Git** à la place des devs
+<div class="border rounded-lg p-2 text-center">
+  <div class="text-xl mb-1">🎨</div>
+  <div class="font-semibold text-xs">web</div>
+  <div class="text-[10px] text-gray-500">Front B2C · React/TS</div>
+</div>
+
+<div class="border rounded-lg p-2 text-center">
+  <div class="text-xl mb-1">🎨</div>
+  <div class="font-semibold text-xs">cgp-platform</div>
+  <div class="text-[10px] text-gray-500">Front B2B · React/TS</div>
+</div>
+
+<div class="border rounded-lg p-2 text-center">
+  <div class="text-xl mb-1">⚙️</div>
+  <div class="font-semibold text-xs">backend</div>
+  <div class="text-[10px] text-gray-500">API · Nest/TS</div>
+</div>
+
+<div class="border rounded-lg p-2 text-center">
+  <div class="text-xl mb-1">⚡</div>
+  <div class="font-semibold text-xs">aggregated</div>
+  <div class="text-[10px] text-gray-500">Nouvelle API · Hono/TS</div>
+</div>
+
+<div class="border rounded-lg p-2 text-center">
+  <div class="text-xl mb-1">🗄️</div>
+  <div class="font-semibold text-xs">shared-aggregations</div>
+  <div class="text-[10px] text-gray-500">Migrations DB</div>
+</div>
+
+</div>
+
+<div class="text-gray-600 italic text-sm mt-6 mb-3">Le coût d'une MEP cross-app :</div>
+
+- 🐌 Orchestrer 5 repos à la main, dans le bon ordre
+- 🔀 Taguer, releaser, notifier = 5× le même process manuel
+- 📋 Savoir ce qui part en prod = checker 5 GitHub, recopier à la main
 
 <!--
-Oral (1m30) :
-- "Chez nous, back et cgp-platform utilisaient releases/X.x pour les hotfix."
-- "Principe : bug en prod, on tire une branche depuis la dernière release, on fixe, on déploie."
-- "Problème : personne ne remergeait ça dans main."
-- "La personne qui orchestrait les préprods devait chaque semaine vérifier les hotfix accumulés, remerger à la main, gérer les conflits."
-- "Conflits qu'elle comprenait mal. Devs d'origine en vacances (full remote) : pire."
-- "Pas d'env de test : preprod servait aux devs ET aux clients pour les démos."
-
-PÉPITE : "Un workflow qui n'est la responsabilité de personne devient le fardeau de tout le monde."
+Oral (1m) :
+- "5 repos, 1 équipe de 8 devs."
+- "CGP = Conseiller en Gestion de Patrimoine. Fintech bordelaise."
+- "À 5 repos, ce qui coûtait 10 minutes à 1 repo devient 1 heure à tout le monde."
 -->
 
 ---
 
 # Les 3 questions qu'on se posait toutes les semaines
 
-<div class="space-y-8 mt-8">
+<div class="space-y-6 mt-6">
 
-<div v-click class="border-l-4 border-red-400 pl-6">
+<div class="border-l-4 border-red-400 pl-6">
 
 🔀 **"Est-ce que j'ai bien pris tous les hotfix ?"**
 
@@ -123,15 +148,15 @@ PÉPITE : "Un workflow qui n'est la responsabilité de personne devient le farde
 
 </div>
 
-<div v-click class="border-l-4 border-amber-400 pl-6">
+<div class="border-l-4 border-amber-400 pl-6">
 
 📢 **"C'est quoi qui part en prod ce soir ?"**
 
-<span class="text-sm text-gray-500">Changelog = liste brute de titres de commits. Pas de nomenclature, pas toujours de ticket. Statuts MàJ à la main.</span>
+<span class="text-sm text-gray-500">Changelog = liste brute de titres de commits. Pas de nomenclature. Statuts MàJ à la main.</span>
 
 </div>
 
-<div v-click class="border-l-4 border-blue-400 pl-6">
+<div class="border-l-4 border-blue-400 pl-6">
 
 🕰️ **"Ça a été déployé quand, exactement ?"**
 
@@ -142,11 +167,9 @@ PÉPITE : "Un workflow qui n'est la responsabilité de personne devient le farde
 </div>
 
 <!--
-Oral (1m30) — intègre le "qui je suis" :
+Oral (1m) :
 - "3 questions qu'on se posait à chaque MEP."
-- (1) Stress du hotfix.
-- (2) Communication qu'on envoyait en chinois (titres de commits).
-- (3) Rythme : zéro prévisibilité.
+- "Hotfix perdu. Communication en chinois. Zéro prévisibilité."
 - "À ce stade, j'étais un nouvel arrivant. Personne ne considérait ça comme anormal."
 
 PÉPITE : "À force de vivre avec la douleur, on finit par ne plus la voir."
@@ -154,336 +177,115 @@ PÉPITE : "À force de vivre avec la douleur, on finit par ne plus la voir."
 
 ---
 
-# Ce qu'on a remis en place d'abord
+# Les fondations avant l'automatisation
 
-<div class="text-gray-500 italic mt-4 mb-10">
-L'automatisation n'a pas été la 1ère étape. Il a fallu d'abord réparer les fondations.
+<div class="text-gray-500 italic mt-2 mb-6">
+L'automatisation sans fondations amplifie le chaos.
 </div>
 
 **✅ Un flow Git simple et redevable**
 
-<span class="text-gray-500 text-sm ml-8">GitHub Flow — `main` stable + branches `feat/*`, `fix/*`. Plus de `releases/X.x` orphelines.</span>
+<span class="text-gray-500 text-sm ml-8">GitHub Flow — `main` stable + branches `feat/*`, `fix/*`. Pas de `releases/X.x` orphelines.</span>
 
-<div class="mt-6"></div>
+<div class="mt-5"></div>
 
 **✅ Des environnements dédiés et étanches**
 
-<span class="text-gray-500 text-sm ml-8">`dev` → `staging` (feature branch) → `preprod` (tests produit) → `prod`</span><br/>
-<span class="text-gray-500 text-sm ml-8">`staging` pour les feature branch</span>
+<span class="text-gray-500 text-sm ml-8">`dev` → `staging` (feature branch) → `preprod` (tests produit) → `prod`</span>
 
-<div class="mt-6"></div>
+<div class="mt-5"></div>
 
-**✅ Une CI qui bloque avant la préprod**
+**✅ Une CI qui bloque avant le merge**
 
-<span class="text-gray-500 text-sm ml-8">Tests, lint, build reproductibles, nomenclature PR</span>
+<span class="text-gray-500 text-sm ml-8">Tests, lint, build reproductibles, nomenclature PR forcée</span>
+
+<div class="mt-8 text-center text-sm text-gray-500 italic">
+Pas négociable. Rien de ce qui suit ne marche sans ça.
+</div>
 
 <!--
-Oral (30-45s) :
-- "Avant d'aller plus loin : ces automatisations supposent des fondations."
-- "CI qui marche. Stratégie de branche claire. Infra cloud prête."
-- "Sans ces 3, l'automatisation amplifie le chaos."
+Oral (45s) :
+- "Ces 3 éléments sont des pré-requis, pas des plus."
+- "Sans eux, automatiser = accélérer la production de bugs."
 
-TRANSITION section 5 :
-"Précision importante : pas 'discipline OU automatisation'. Les deux.
-Discipline pour les décisions qui nécessitent du jugement. Automatisation pour tout ce qui prend plus de 5 minutes manuelles."
+TRANSITION : "Une fois les fondations là, la question devient : comment orchestrer 5 repos sans refaire toute la CI ?"
 -->
 
 ---
 
-# La partie web : 6 repos, 1 équipe
-
-<div class="grid grid-cols-5 gap-1 mt-4">
-
-<div class="border rounded-lg p-2 text-center">
-  <div class="text-xl mb-1">🎨</div>
-  <div class="font-semibold text-xs">web</div>
-  <div class="text-[10px] text-gray-500">Front B2C · React/TS</div>
-  <div class="text-[10px] text-green-600 mt-1">🚀 déployé</div>
-</div>
-
-<div class="border rounded-lg p-2 text-center">
-  <div class="text-xl mb-1">🎨</div>
-  <div class="font-semibold text-xs">cgp-platform</div>
-  <div class="text-[10px] text-gray-500">Front B2B · React/TS</div>
-  <div class="text-[10px] text-green-600 mt-1">🚀 déployé</div>
-</div>
-
-<div class="border rounded-lg p-2 text-center">
-  <div class="text-xl mb-1">⚙️</div>
-  <div class="font-semibold text-xs">backend</div>
-  <div class="text-[10px] text-gray-500">API · Nest/TS</div>
-  <div class="text-[10px] text-green-600 mt-1">🚀 déployé</div>
-</div>
-
-<div class="border rounded-lg p-2 text-center">
-  <div class="text-xl mb-1">⚡</div>
-  <div class="font-semibold text-xs">aggregated</div>
-  <div class="text-[10px] text-gray-500">Nouvelle API · Hono/TS</div>
-  <div class="text-[10px] text-green-600 mt-1">🚀 déployé</div>
-</div>
-
-<div class="border rounded-lg p-2 text-center">
-  <div class="text-xl mb-1">🗄️</div>
-  <div class="font-semibold text-xs">shared-aggregations</div>
-  <div class="text-[10px] text-gray-500">Migrations · Schémas DB</div>
-  <div class="text-[10px] text-green-600 mt-1">🚀 déployé</div>
-</div>
-
-</div>
-
-<div class="grid grid-cols-5 gap-1 mt-2 mb-4">
-
-<div class="col-span-3 border border-dashed border-blue-300 rounded-lg p-2 flex items-center gap-2 bg-blue-50">
-<span>📦</span>
-<span class="font-semibold text-xs">wealthcome-cgp</span>
-<span class="text-[10px] text-gray-500">Types partagés</span>
-<div class="ml-auto text-[10px] text-blue-600 whitespace-nowrap">↑ web · cgp-platform · backend</div>
-</div>
-
-<div class="col-span-2 border border-dashed border-orange-300 rounded-lg p-2 flex items-center gap-2 bg-orange-50">
-<span>🗄️</span>
-<span class="font-semibold text-xs text-orange-800">shared-aggregations</span>
-<div class="ml-auto text-[10px] text-orange-700 whitespace-nowrap">↑ backend · aggregated</div>
-</div>
-
-</div>
-
-<div class="text-gray-600 italic text-sm mb-3">Ce qu'on vivait au quotidien :</div>
-
-- 🐌 Déployer une feature cross-app = orchestrer ces repos, à la main, dans le bon ordre
-- 🔀 Taguer, release, notifier Slack = 5× le même process, manuellement
-- 📋 Savoir ce qui part en prod ce soir = checker 5 GitHub, recopier à la main
-
-<!--
-Oral (1m30) :
-- "3 apps, 1 équipe."
-- "CGP = Conseiller en Gestion de Patrimoine. On travaille dans la fintech."
-- "Process de release : 1 à 2 heures par MEP. Plus tenable."
--->
-
----
-
-# Ce qu'on cherchait à résoudre
-
-<div class="space-y-4 mt-4">
-
-<div class="flex items-start gap-2">
-<div class="text-3xl">🎯</div>
-<div>
-
-**Un point d'entrée unique**
-
-<span class="text-gray-500">Une équipe ≠ se disperser entre 3 repos. Où cliquer, où déclencher, où regarder ?</span>
-
-</div>
-</div>
-
-<div class="flex items-start gap-2">
-<div class="text-3xl">🔗</div>
-<div>
-
-**De la logique partagée**
-
-<span class="text-gray-500">Tagging, release, notifs : 3× la même chose → une seule implémentation, réutilisable.</span>
-
-</div>
-</div>
-
-<div class="flex items-start gap-2">
-<div class="text-3xl">📊</div>
-<div>
-
-**Une vue d'ensemble**
-
-<span class="text-gray-500">Ce qui part en prod ce soir, dans toutes les apps → agrégation, pas dispersion.</span>
-
-</div>
-</div>
-
-</div>
-
-<!--
-Oral (1m30) :
-- "On n'a pas cherché à changer notre architecture — elle nous convenait."
-- "On cherchait à l'orchestrer intelligemment."
-
-Élimine le débat monorepo vs multi-repos.
--->
-
-::footer::
-
-_Pas de refonte d'architecture. Juste une couche d'orchestration._
-
----
-
-# L'inspiration : le package `meta`
-
-<div class="text-sm text-gray-500 mb-6">
-Créé par @mateodelnorte · Dernière MAJ : 2020
-</div>
-
-> "Why choose many repos or a monolithic repo, when you can have both with a meta repo?"
-
-<div class="grid grid-cols-2 gap-10 mt-10">
-
-<div>
-
-**L'idée qu'on a gardée**
-
-- 📄 Un descripteur listant tous les repos
-- 🎯 Un repo "parent" qui orchestre
-- ⚡ Des commandes qui s'appliquent partout
-
-</div>
-
-<div>
-
-**Pourquoi notre propre implémentation**
-
-- Package non maintenu depuis 5 ans
-- On voulait GitHub Actions + pnpm workspace
-- Besoins spécifiques : Notion, Slack, tags RC/prod
-
-</div>
-
-</div>
-
-<!--
-Oral (1m30) :
-- "Je tenais à citer meta. C'est cette lecture qui nous a donné le cadre mental."
-- "On n'a pas inventé la roue, on l'a réimplémentée."
-
-⚠️ Q&A anticipée : "meta n'est plus maintenu" → "exactement, c'est pourquoi je release mon propre pkg, dans la dernière partie du talk."
--->
-
-::footer::
-
-_pnpm workspace + GitHub Actions + scripts bash = même philosophie, stack 2026_
-
----
-
-# `wealthcome-meta` : la structure
-
-```text {all|3-6|8-9|11-15|17-21|22|all}
-wealthcome-meta/
-│
-├── apps/                       # repos clonés (gitignored)
-│   ├── backend/
-│   ├── cgp-platform/
-│   └── web/
-│
-├── packages/                   # logique métier partagée
-│   └── generate-changelog/     # (TypeScript)
-│
-├── scripts/                    # orchestration locale
-│   ├── sync-repos.sh
-│   ├── add-repo.sh
-│   └── generate-*-tag.sh
-│
-├── .github/                    # CI/CD partagée
-│   ├── actions/
-│   └── workflows/
-│
-├── repos.json                  # 👈 le descripteur
-└── pnpm-workspace.yaml
-```
-
-<!--
-Oral (2m) — révélation progressive {all|3-6|...} :
-- (1) L'arborescence.
-- (2) apps/ : repos clonés, gitignored.
-- (3) packages/ : logique métier, ici générateur de changelog TS.
-- (4) scripts/ : bash pur (sync-repos, add-repo, tags).
-- (5) .github/ : CI/CD partagée.
-- (6) repos.json : le descripteur (slide suivante).
-
-PÉPITE : "Un petit repo, ~2000 lignes. pnpm workspace classique. Rien de magique."
--->
-
----
-
-# Le dev workflow en 2 étapes
+# Pourquoi un meta-repository ?
 
 <div class="grid grid-cols-2 gap-8 mt-6">
 
-<div>
+<div class="border rounded-lg p-5 bg-gray-50">
 
-<div class="text-sm uppercase tracking-wider text-gray-500 mb-3">1. Le descripteur</div>
+<div class="text-sm font-semibold uppercase tracking-wider text-gray-600 mb-3">
+❌ Option monorepo
+</div>
 
-```json
-[
-  {
-    "name": "backend",
-    "url": "git@github.com:..."
-  },
-  {
-    "name": "cgp-platform",
-    "url": "git@github.com:..."
-  },
-  {
-    "name": "web",
-    "url": "git@github.com:..."
-  }
-]
-```
+- Refonte complète de la CI/CD
+- Migration risquée
+- Outillage à repenser
+- "Big bang" difficile à planifier
 
-<div class="text-xs text-gray-500 mt-2">repos.json</div>
+<div class="text-xs text-gray-500 mt-3 italic">
+L'équipe n'a pas besoin d'un nouveau projet à apprendre.
+</div>
 
 </div>
 
-<div>
+<div class="border rounded-lg p-5 bg-blue-50 border-blue-200">
 
-<div class="text-sm uppercase tracking-wider text-gray-500 mb-3">2. Onboarding en 1 commande</div>
+<div class="text-sm font-semibold uppercase tracking-wider text-blue-700 mb-3">
+✅ Option meta-repository
+</div>
 
-```bash
-$ git clone .../wealthcome-meta
-$ cd wealthcome-meta
-$ pnpm install
-$ pnpm sync
+- Les repos existants ne bougent pas
+- Une couche d'orchestration en plus
+- Transition **douce**, progressive
+- Chaque repo garde sa **souveraineté**
 
-✓ Cloned backend
-✓ Cloned cgp-platform
-✓ Cloned web
-```
-
-<div class="text-xs text-gray-500 mt-2">terminal</div>
+<div class="text-xs text-gray-500 mt-3 italic">
+On ajoute, on ne remplace pas.
+</div>
 
 </div>
 
+</div>
+
+<div class="mt-8 text-center text-lg italic text-gray-600 border-t pt-4">
+Pas de refonte d'architecture. Juste une couche d'orchestration.
 </div>
 
 <!--
-Oral (2m) :
-- "repos.json = source de vérité, liste des projets."
-- "pnpm sync clone ou pull tous les repos dans apps/."
-- "Onboarding nouveau dev : clone du meta, install, sync. 2 minutes."
+Oral (1m30) :
+- "Premier arbitrage : on passe en monorepo ?"
+- "Réponse : non. Trop coûteux, trop risqué, trop long."
+- "À la place : un meta-repo qui orchestre les repos existants."
+- "C'est une dette technique assumée — mais une dette qu'on peut rembourser plus tard."
 
-TRANSITION : "Voilà l'architecture. Un repo, un descripteur, des scripts. La magie est dans la CI/CD."
+PÉPITE : "La meilleure architecture, c'est celle qu'on peut déployer sans rien casser."
 -->
-
-::footer::
-
-<span class="text-gray-500">Avant :</span> 1 journée d'onboarding · <span class="text-gray-500">Après :</span> <span class="font-semibold">2 minutes</span>
 
 ---
 
-# Un pipeline en 2 niveaux
+# Le pattern en 2 niveaux
 
-<div class="text-sm text-gray-500 mb-4">La décision architecturale clé.</div>
+<div class="text-sm text-gray-500 mb-4">La décision architecturale clé — transposable partout.</div>
 
 ```mermaid {scale: 0.52}
 flowchart TD
-    A[👤 workflow_dispatch] --> B[prepare<br/>lit repos.json]
+    A[👤 workflow_dispatch] --> B[meta-repo<br/>lit la config]
     B --> C{matrix}
-    C --> D1[backend<br/>check · tag · release]
-    C --> D2[cgp-platform<br/>check · tag · release]
-    C --> D3[web<br/>check · tag · release]
+    C --> D1[repo 1<br/>check · tag · release]
+    C --> D2[repo 2<br/>check · tag · release]
+    C --> D3[repo N<br/>check · tag · release]
     D1 --> E[🏷️ tag pushed]
     D2 --> E
     D3 --> E
-    E --> F1[flow backend<br/>publish · migrate · deploy]
-    E --> F2[flow cgp-platform]
-    E --> F3[flow web]
+    E --> F1[CI repo 1<br/>publish · migrate · deploy]
+    E --> F2[CI repo 2]
+    E --> F3[CI repo N]
 
     style A fill:#dbeafe,stroke:#1e40af
     style B fill:#dbeafe,stroke:#1e40af
@@ -496,45 +298,205 @@ flowchart TD
     style F3 fill:#dcfce7,stroke:#166534
 ```
 
-<div class="text-center text-xs text-gray-600 mt-2">
-Niveau 1 : wealthcome-meta orchestre · Niveau 2 : chaque repo déploie
+<div class="mt-4 grid grid-cols-2 gap-6 text-sm">
+
+<div class="border-l-2 border-blue-400 pl-4">
+
+**Niveau 1 — Le meta**
+
+Orchestration pure : lit la config, crée les tags.
+<br/><span class="text-gray-500 text-xs">Ne sait RIEN du déploiement.</span>
+
+</div>
+
+<div class="border-l-2 border-green-600 pl-4">
+
+**Niveau 2 — Chaque repo**
+
+Pipeline métier : publish, migrate, deploy, notify.
+<br/><span class="text-gray-500 text-xs">Souveraineté complète.</span>
+
+</div>
+
 </div>
 
 <!--
 Oral (1m30) — LA slide de référence :
-- "Décision architecturale clé."
 - "Le meta ne connaît PAS les détails de déploiement. Il crée des tags."
-- "Chaque repo a son propre flow qui réagit."
-- "Souveraineté de déploiement."
-- "Back : 4 jobs (AWS + SCW, app + CGP). Front : 1. Le meta ne doit pas savoir ça."
-- "Le couplage se fait par le tag — interface la plus universelle en Git."
+- "Chaque repo a son propre flow qui réagit au push de tag."
+- "Le couplage se fait par le tag — interface universelle en Git."
+- "Conséquence : on peut ajouter un 6e repo demain, le meta n'a qu'à le lister."
+
+PÉPITE : "Un bon système, c'est un système où chaque brique fait UNE chose — et la fait bien."
 -->
 
 ---
 
-# Guérir la douleur du hotfix
+# `repoflow` en action
 
-<div class="bg-red-50 border-l-4 border-red-400 p-3 mb-6 italic text-gray-700">
-🔀 <strong>"Est-ce que j'ai bien pris tous les hotfix ?"</strong>
+<div class="text-sm text-gray-500 mb-4">
+Le package que j'ai extrait de cette expérience · <code>npm i -g @axelmth/repoflow</code>
 </div>
 
-<div class="grid grid-cols-2 gap-8">
+<div class="grid grid-cols-2 gap-6 mt-4">
+
+<div>
+
+<div class="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">1. La config</div>
+
+```ts
+// repoflow.config.ts
+import { defineConfig } from '@axelmth/repoflow'
+
+export default defineConfig({
+  repos: [
+    { name: 'web',     url: '...' },
+    { name: 'api',     url: '...' },
+    { name: 'shared',  url: '...' },
+  ],
+})
+```
+
+</div>
+
+<div>
+
+<div class="text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">2. Les commandes</div>
+
+```bash
+$ repoflow sync      # clone/pull tous les repos
+$ repoflow status    # état de chaque repo
+$ repoflow exec --   # commande sur tous
+$ repoflow doctor    # health check
+```
+
+<div class="text-xs text-gray-500 mt-3">
+Et prochainement : <code>repoflow release</code> avec le flow complet.
+</div>
+
+</div>
+
+</div>
+
+<div class="mt-6 bg-blue-50 border-l-4 border-blue-400 p-3 text-sm">
+
+📦 <strong>Démo live</strong> · <code>github.com/AxelMth/repoflow-metarepo-example</code>
+
+<span class="text-gray-600 text-xs">Clone, sync, et c'est parti — template prêt à l'emploi.</span>
+
+</div>
+
+<!--
+Oral (2m) :
+- "repoflow, c'est le package que j'ai extrait de wealthcome-meta."
+- "Il fait l'orchestration, pas encore la release flow complète — ça arrive en v0.2."
+- "Mais tout ce qui suit marche déjà."
+- "Je vais vous montrer repoflow-metarepo-example qui illustre tout ce qu'on voit aujourd'hui."
+- [Ouvrir le repo en live si possible]
+
+CLÉ : Le public voit MAINTENANT que tout est reproductible.
+-->
+
+---
+
+# Les 4 actions disponibles
+
+<div class="grid grid-cols-2 gap-4 mt-4">
+
+<div class="border rounded-lg p-4 bg-green-50 border-green-200">
+
+<div class="text-2xl mb-2">🌅</div>
+
+**Prerelease**
+
+<span class="text-sm text-gray-600">Déploie en préprod. Tous les matins (cron) + à la demande.</span>
+
+<div class="mt-3 text-xs text-gray-500">
+Inputs : `repos: all | backend,web` · `dry-run`
+</div>
+
+</div>
+
+<div class="border rounded-lg p-4 bg-purple-50 border-purple-200">
+
+<div class="text-2xl mb-2">🚀</div>
+
+**Release**
+
+<span class="text-sm text-gray-600">Déploie en prod. Mardi & jeudi soir, manuel.</span>
+
+<div class="mt-3 text-xs text-gray-500">
+Inputs : `repos: all | backend,web` · `dry-run`
+</div>
+
+</div>
+
+<div class="border rounded-lg p-4 bg-amber-50 border-amber-200">
+
+<div class="text-2xl mb-2">🔧</div>
+
+**Hotfix preprod**
+
+<span class="text-sm text-gray-600">Cherry-pick sur la dernière RC → nouveau tag RC.</span>
+
+<div class="mt-3 text-xs text-gray-500">
+Inputs : `commit` · `repo` · `dry-run`
+</div>
+
+</div>
+
+<div class="border rounded-lg p-4 bg-red-50 border-red-200">
+
+<div class="text-2xl mb-2">🚑</div>
+
+**Hotfix prod**
+
+<span class="text-sm text-gray-600">Cherry-pick sur la dernière prod → tag patch.</span>
+
+<div class="mt-3 text-xs text-gray-500">
+Inputs : `commit` · `repo` · `dry-run`
+</div>
+
+</div>
+
+</div>
+
+<div class="mt-6 text-center text-sm text-gray-500 italic">
+4 boutons dans GitHub Actions. C'est tout.
+</div>
+
+<!--
+Oral (1m) :
+- "L'interface, c'est ça : 4 boutons dans GitHub Actions."
+- "Prerelease, Release, Hotfix preprod, Hotfix prod."
+- "Chacun avec son rythme, ses inputs, son dry-run."
+- "Je prends les 2 plus importants pour vous."
+-->
+
+---
+
+# Prerelease : le rythme quotidien
+
+<div class="grid grid-cols-2 gap-8 mt-6">
 
 <div>
 
 <div class="text-sm font-semibold uppercase tracking-wider text-gray-600 mb-3">
-1 · Vérifier la synchronisation
+Déclenchement
 </div>
 
 ```yaml
-- name: Check hotfix sync
-  run: |
-    missing=$(git log main..releases/X.x \
-              --oneline)
-    if [ -n "$missing" ]; then
-      echo "::error::Hotfix non remontés"
-      exit 1
-    fi
+on:
+  schedule:
+    - cron: '20 5 * * 1-5'
+    #        ↑ 7h20 Paris,
+    #          jours ouvrés
+  workflow_dispatch:
+    inputs:
+      repos:
+        default: 'all'
+      dry-run:
+        type: boolean
 ```
 
 </div>
@@ -542,15 +504,19 @@ Oral (1m30) — LA slide de référence :
 <div>
 
 <div class="text-sm font-semibold uppercase tracking-wider text-gray-600 mb-3">
-2 · Validation humaine
+Ce que ça fait
 </div>
 
-- Le meta crée la release en **DRAFT**
-- Un humain relit, valide, publie
-- Le push du tag déclenche le déploiement
+1. Lit `repoflow.config.ts`
+2. Pour chaque repo :
+   - Calcule le tag RC suivant
+   - Vérifie les hotfix remontés
+   - Crée la release GitHub en *prerelease*
+3. Poste le changelog dans `#changelog`
+4. Attend les déploiements enfants
 
-<div class="mt-5 bg-green-50 border-l-4 border-green-400 p-3 text-sm italic text-gray-700">
-→ 2 filets de sécurité avant toute MEP
+<div class="mt-4 bg-green-50 border-l-4 border-green-400 p-2 text-xs italic">
+→ Ce qui a été mergé hier est testable au réveil.
 </div>
 
 </div>
@@ -559,45 +525,24 @@ Oral (1m30) — LA slide de référence :
 
 <!--
 Oral (1m30) :
-- "Première douleur : hotfix perdu."
-- "Étape de vérif : si un commit existe sur releases/X.x mais pas sur main, pipeline s'arrête."
-- "2ème filet : release draft. Un humain clique 'Publish'."
-- "L'automatisation n'enlève pas le jugement, elle l'éclaire."
+- "Prerelease = le rythme cardiaque du système."
+- "Cron tous les matins 7h20 Paris. Jours ouvrés."
+- "On arrive au bureau, la préprod a les features mergées la veille."
+- "Et si besoin, on peut déclencher manuellement avec un sous-ensemble de repos."
+
+PÉPITE : "Un rythme régulier, c'est un cadeau qu'on fait à tout le monde — y compris à soi-même."
 -->
 
 ---
 
-# Guérir les rythmes irréguliers
+# Release : le rythme contrôlé
 
-<div class="bg-blue-50 border-l-4 border-blue-400 p-3 mb-6 italic text-gray-700">
-🕰️ <strong>"Ça a été déployé quand, exactement ?"</strong>
-</div>
-
-<div class="grid grid-cols-2 gap-8">
+<div class="grid grid-cols-2 gap-8 mt-6">
 
 <div>
 
 <div class="text-sm font-semibold uppercase tracking-wider text-gray-600 mb-3">
-Préprod — tous les matins
-</div>
-
-```yaml
-on:
-  schedule:
-    - cron: '0 7 * * 1-5'
-    #        ↑ 9h, jours ouvrés
-```
-
-<div class="text-sm text-gray-600 mt-4">
-Ce qui a été mergé hier est testable en arrivant au bureau.
-</div>
-
-</div>
-
-<div>
-
-<div class="text-sm font-semibold uppercase tracking-wider text-gray-600 mb-3">
-Prod — 2× par semaine, à la demande
+Déclenchement
 </div>
 
 ```yaml
@@ -607,96 +552,120 @@ on:
       repos:
         description: 'all OR csv'
         default: 'all'
+      dry-run:
+        type: boolean
 ```
 
-<div class="text-sm text-gray-600 mt-4">
-Mardi et jeudi. L'équipe et le produit s'y préparent.
+<div class="text-xs text-gray-500 mt-3">
+<strong>Rythme humain :</strong> mardi et jeudi soir.
+<br/>Le responsable du jour est dans le thème <code>#dev</code>.
 </div>
 
 </div>
-
-</div>
-
-<!--
-Oral (1m30) :
-- "2e douleur : rythme. 2 rythmes distincts."
-- "Préprod cron chaque matin 9h. Devs savent que ce qu'ils ont mergé la veille est testable."
-- "Prod 2×/semaine à la main, mardi/jeudi. On garde le contrôle du moment."
-- "Produit sait quand préparer démos. Support sait. On n'est plus dans la réactivité."
-
-PÉPITE : "Un rythme régulier, c'est un cadeau qu'on fait à tout le monde — y compris à soi-même."
--->
-
-::footer::
-
-_Fini le "quand on pourra". Tout le monde sait quand._
-
----
-
-# Guérir les communications
-
-<div class="bg-amber-50 border-l-4 border-amber-400 p-2 mb-3 italic text-gray-700 text-sm">
-📢 <strong>"C'est quoi qui part en prod ce soir ?"</strong>
-</div>
-
-<div class="space-y-2 text-sm">
-
-**1 · Nomenclature forcée à la PR**
-
-```yaml
-uses: wealthcome-SAS/actions/check-pr-title@stable
-# Pattern imposé : feat(module): description [TICKET-42]
-```
-
-<span class="text-gray-500 text-xs">→ Pas de ticket = pas de merge</span>
-
-**2 · Changelog enrichi, pas brut**
-
-```text
-packages/generate-changelog/
-├── github.ts     ← fetch PRs
-├── notion.ts     ← enrichit avec les titres tickets
-└── slack.ts      ← formate + @tag les owners
-```
-
-<span class="text-gray-500 text-xs">→ Produit lit "Ajout export PDF [AUTH-42]", pas "fix: update flow (PR #312)"</span>
-
-**3 · Tags @personnes + MAJ Notion automatique**
-
-<span class="text-gray-500 text-xs">Ticket mentionné → owner @tag dans Slack · statut Notion passe à "Déployé" · plus de DM "c'est parti ?"</span>
-
-</div>
-
-<!--
-Oral (1m30) :
-- "Douleur la plus vicieuse : communications."
-- "Avant : changelogs = commits bruts. Produit lit en chinois."
-- "3 niveaux : nomenclature forcée, changelog enrichi via Notion, tags @owners Slack."
-- "Plus de DM 'c'est parti ?'. Ils savent en temps réel."
-
-PÉPITE : "LA slide où l'automatisation paie le plus. Parce qu'elle fait gagner du temps à des gens qui ne savent même pas qu'on l'a automatisé. Produit, support, clients : ils bénéficient d'un système qu'ils ne voient pas. Meilleure définition de la qualité."
--->
-
----
-
-# Le dry run — l'option qui donne confiance
-
-```yaml
-workflow_dispatch:
-  inputs:
-    dry_run:
-      description: 'Simulation sans effet de bord'
-      type: boolean
-      default: false
-```
-
-<div class="grid grid-cols-2 gap-8 mt-8 text-sm">
 
 <div>
 
-<div class="font-semibold uppercase tracking-wider text-gray-600 text-xs mb-3">Ce que ça fait</div>
+<div class="text-sm font-semibold uppercase tracking-wider text-gray-600 mb-3">
+Ce que ça fait
+</div>
 
-- ✅ Simule : check_diff, calcul du tag, changelog
+1. Reprend le dernier tag RC de chaque repo
+2. **Vérifie que les hotfix sont remontés**
+3. Crée la release GitHub en **DRAFT**
+4. Un humain relit, valide, publie
+5. Push du tag → déploiement de chaque repo
+6. Changelog dans `#product`, tickets tagués
+
+<div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-2 text-xs italic">
+→ 2 filets de sécurité : check hotfix + validation humaine.
+</div>
+
+</div>
+
+</div>
+
+<!--
+Oral (1m30) :
+- "Release = le moment qui engage. Différent du rythme cardiaque."
+- "2 filets de sécurité."
+- "Filet 1 : on vérifie automatiquement que tous les hotfix sont remontés."
+- "Filet 2 : la release est créée en DRAFT. Un humain valide en cliquant Publish."
+- "L'automatisation n'enlève pas le jugement, elle l'éclaire."
+
+PÉPITE : "Les 2 clics, c'est pas une dette. C'est une feature."
+-->
+
+---
+
+# Hotfix : 2 variantes, 1 logique
+
+<div class="grid grid-cols-2 gap-6 mt-4">
+
+<div class="border rounded-lg p-4 bg-amber-50 border-amber-200">
+
+<div class="text-lg font-semibold mb-2">🔧 Hotfix preprod</div>
+
+<div class="text-xs text-gray-600 mb-3">Bug en préprod, corriger sans attendre la prerelease du lendemain.</div>
+
+```text
+v1.3.0-rc.2 (préprod)
+       ↓ cherry-pick
+v1.3.0-rc.3 ← nouveau tag
+```
+
+</div>
+
+<div class="border rounded-lg p-4 bg-red-50 border-red-200">
+
+<div class="text-lg font-semibold mb-2">🚑 Hotfix prod</div>
+
+<div class="text-xs text-gray-600 mb-3">Bug critique en prod, correctif immédiat sans cycle complet.</div>
+
+```text
+v1.3.0 (prod)
+       ↓ cherry-pick
+v1.3.1 ← nouveau tag
+```
+
+</div>
+
+</div>
+
+<div class="mt-6 text-sm">
+
+**Logique commune** :
+
+1. Création d'une branche depuis le dernier tag (RC ou prod)
+2. Cherry-pick du commit spécifié
+3. Incrément automatique (patch ou RC)
+4. Création de la GitHub Release
+5. Notification Slack avec le tag
+
+</div>
+
+<div class="mt-4 bg-gray-100 border rounded p-2 text-xs italic text-gray-600 text-center">
+⚠️ Hotfix en cascade ? Un par un, dans l'ordre. Le release-flow vérifie automatiquement.
+</div>
+
+<!--
+Oral (1m30) :
+- "2 variantes de hotfix : préprod et prod."
+- "Même logique : cherry-pick sur la branche stable."
+- "Différence : préprod incrémente le RC, prod incrémente le patch."
+- "Et si plusieurs hotfix : un par un. Le système vérifie."
+-->
+
+---
+
+# Le dry-run — l'option qui donne confiance
+
+<div class="grid grid-cols-2 gap-8 mt-4">
+
+<div>
+
+<div class="text-sm font-semibold uppercase tracking-wider text-gray-600 mb-3">Ce que ça fait</div>
+
+- ✅ Simule : check, calcul du tag, changelog
 - ✅ Affiche dans les logs ce qui serait fait
 - ❌ Ne crée pas de tag
 - ❌ Ne poste rien sur Slack
@@ -706,7 +675,7 @@ workflow_dispatch:
 
 <div>
 
-<div class="font-semibold uppercase tracking-wider text-gray-600 text-xs mb-3">Quand on l'utilise</div>
+<div class="text-sm font-semibold uppercase tracking-wider text-gray-600 mb-3">Quand on l'utilise</div>
 
 - Avant une release sensible (vendredi)
 - Vérifier la nomenclature des PRs
@@ -717,294 +686,235 @@ workflow_dispatch:
 
 </div>
 
+<div class="mt-6 text-center text-lg italic text-gray-600 border-t pt-4">
+💡 La meilleure automatisation, c'est celle qu'on ose lancer.
+</div>
+
 <!--
-Oral (1m) :
+Oral (45s) :
 - "Option ajoutée après 2-3 mois, pas au début."
 - "Mode simulation. Calcule ce qui se passerait, l'affiche, ne touche à rien."
-- "Case qu'on coche le vendredi, systématiquement."
-- "Aussi utile pour onboarder un nouveau sans risque."
+- "Case cochée systématiquement le vendredi."
 
 PÉPITE : "La meilleure automatisation, c'est celle qu'on ose lancer. Pas celle qu'on évite d'approcher."
 -->
 
-::footer::
-
-_💡 La meilleure automatisation, c'est celle qu'on ose lancer._
-
 ---
 
-# Le flow backend : 2 clouds, 1 tag
+# Une CI en 2 temps
 
-<div class="text-xs text-gray-500 mb-2 text-center">Déclencheur : <code>on: push: tags: [v*.*.*-rc.*]</code></div>
+<div class="grid grid-cols-2 gap-6 mt-4">
 
-<div class="flex justify-center">
+<div class="border rounded-lg p-4 bg-blue-50 border-blue-200">
 
-```mermaid {scale: 0.65}
-flowchart TD
-    P[publish<br/>Docker → ECR + SCW]
-    P --> M1[migrate AWS DB]
-    P --> M2[migrate Scaleway]
-    M1 --> D1[deploy AWS]
-    M1 --> D2[deploy CGP AWS]
-    M2 --> D3[deploy SCW]
-    M2 --> D4[deploy CGP SCW]
-    D1 --> N[notify Slack]
-    D2 --> N
-    D3 --> N
-    D4 --> N
+<div class="text-xs uppercase tracking-wider text-blue-700 mb-2">Temps 1 — À la PR</div>
 
-    style P fill:#fef3c7,stroke:#92400e
-    style M1 fill:#ffedd5,stroke:#c2410c
-    style M2 fill:#e0e7ff,stroke:#3730a3
-    style D1 fill:#ffedd5,stroke:#c2410c
-    style D2 fill:#ffedd5,stroke:#c2410c
-    style D3 fill:#e0e7ff,stroke:#3730a3
-    style D4 fill:#e0e7ff,stroke:#3730a3
-```
+**CI bloquante**
+
+- Lint · tests · typecheck · build
+- Nomenclature PR forcée (ticket requis)
+- Preview déployée sur `staging`
+- Pas de merge sans ✅
+
+<div class="text-xs text-gray-500 mt-3">
+Objectif : <strong>ne jamais merger un main cassé</strong>.
+</div>
 
 </div>
 
-<div class="text-xs text-gray-500 text-center mt-2">
-<strong>3 choses à retenir :</strong> pattern de tag · DAG des <code>needs:</code> · <code>concurrency:</code> groups
+<div class="border rounded-lg p-4 bg-green-50 border-green-200">
+
+<div class="text-xs uppercase tracking-wider text-green-700 mb-2">Temps 2 — Au tag</div>
+
+**CI de déploiement**
+
+- Déclenchée par `on: push: tags: v*.*.*`
+- Publish → migrate → deploy → notify
+- `concurrency: groups` pour sérialiser
+- Runners self-hosted
+
+<div class="text-xs text-gray-500 mt-3">
+Objectif : <strong>déployer de manière idempotente et prévisible</strong>.
+</div>
+
+</div>
+
+</div>
+
+<div class="mt-6 text-sm text-center text-gray-600 italic border-t pt-4">
+Main est toujours verte. Prod est toujours reproductible.
 </div>
 
 <!--
-Oral (2m) :
-- "DAG de préprod backend. Un tag RC le déclenche."
-- "2 clouds parallèles : AWS + Scaleway. Clients sur chacun."
-- "4 déploiements : app et CGP, sur les 2 clouds."
-- "3 choses à retenir :"
-- "1. Pattern de tag : v*.*.*-rc.* pour préprod, v*.*.* pour prod."
-- "2. DAG des needs: publish → migrate → deploy → notify. Jamais de parallélisme hasardeux."
-- "3. concurrency: groups. Si 2 MEPs en 10s, GitHub n'en fait qu'une. Sans ça : déploiements qui se marchent dessus."
+Oral (1m) :
+- "Toute bonne CI se pense en 2 temps."
+- "Temps 1 : la CI bloquante à la PR. Empêche un main cassé."
+- "Temps 2 : la CI de déploiement, déclenchée par le tag. Deploy reproductible."
+- "Ces deux temps ne doivent jamais se croiser. Les tests ne redéploient rien. Le deploy ne re-teste pas."
+
+PÉPITE : "Confondre ces 2 temps, c'est le signe le plus sûr qu'on va produire des bugs."
 -->
 
 ---
 
-# Runners Kube + actions partagées
+# Runners self-hosted
 
-<div class="grid grid-cols-2 gap-10 mt-6">
+<div class="grid grid-cols-2 gap-8 mt-4">
 
 <div>
 
-**🖥️ Runners self-hosted (EKS)**
+**Pourquoi ?**
 
-Pourquoi :
-- Accès réseau direct aux clusters
-- Caches partagés entre jobs
-- Coût (pour un volume élevé)
-
-```yaml
-migrate:
-  uses: ./.github/workflows/migrate.yml
-  with:
-    runner: preproduction-services
-    environment: preproduction-aws
-```
+- 🚀 **Cache Docker partagé** · builds 6min → 90s
+- 🔒 **Réseau interne direct** · zéro config VPN
+- 💰 **Coût** · pour nous, 20-30% des runs GitHub
+- 🎯 **Contrôle** · version Node, outils custom
 
 </div>
 
 <div>
 
-**📦 Actions partagées**
-
-Repo `wealthcome-SAS/actions` :
+**Setup**
 
 ```yaml
-- uses: wealthcome-SAS/actions/send-slack-message@stable
-- uses: wealthcome-SAS/actions/check-pr-title@stable
-- uses: wealthcome-SAS/actions/.github/workflows/publish.yml@stable
+jobs:
+  deploy:
+    runs-on: self-hosted
+    # ou avec labels :
+    runs-on: [self-hosted, linux, eks]
 ```
 
-<div class="mt-4 text-sm text-gray-600">
-
-→ DRY à travers tous nos repos
-
-→ Une correction = tous les repos l'ont
-
+<div class="text-xs text-gray-500 mt-3">
+Nous : sur EKS (AWS). Docs officielles :<br/>
+<code>docs.github.com/en/actions/hosting-your-own-runners</code>
 </div>
 
 </div>
+
+</div>
+
+<div class="mt-6 bg-amber-50 border-l-4 border-amber-400 p-3 text-sm">
+
+⚠️ **Contre-indications** : équipe < 10 devs, pas d'infra K8s existante, volume CI < 50 runs/jour. Restez sur les runners GitHub — le self-hosted a un coût d'ops non-trivial.
 
 </div>
 
 <!--
 Oral (1m30) :
-- "Runners self-hosted sur EKS. Mêmes clusters qu'on déploie → zéro config réseau. Caches Docker partagés : build qui prenait 6min → 90s."
-- "Repo wealthcome-SAS/actions avec nos composite actions : send-slack-message, check-pr-title, publish (ECR)..."
-- "Quand on les améliore, tous nos repos en bénéficient. DRY au niveau CI/CD."
+- "Les runners self-hosted, c'est tentant mais pas toujours justifié."
+- "Pour nous : 3 raisons."
+- "1. Cache Docker partagé. Un build qui prenait 6 minutes, 90 secondes."
+- "2. Accès réseau direct aux clusters. Pas de VPN gymnastique."
+- "3. Le coût, à un volume suffisant."
+- "MAIS : si vous êtes 5 devs, gardez les runners GitHub. Le self-hosted a un coût d'ops."
+
+Lien doc : https://docs.github.com/en/actions/hosting-your-own-runners
 -->
 
 ---
 
-# Le pipeline en action
+# Actions partagées · le pattern DRY
 
-<div class="h-full flex flex-col items-center justify-center gap-10 -mt-6">
-
-<div class="text-2xl font-light text-gray-700 italic">
-Et si je vous montrais ?
+<div class="text-sm text-gray-500 mb-4">
+Un repo central pour les briques réutilisables.
 </div>
 
-<a href="https://github.com/wealthcome-SAS/wealthcome-meta/actions/workflows/prerelease.yml" target="_blank" class="flex items-center justify-center w-24 h-24 rounded-full bg-gray-900 hover:bg-gray-700 transition-colors shadow-lg text-white text-4xl pl-2 no-underline">▶</a>
+```yaml
+# Dans chaque repo qui déploie :
+- uses: wealthcome-SAS/actions/notify-slack@stable
+- uses: wealthcome-SAS/actions/publish@stable
+- uses: wealthcome-SAS/actions/create-tag@stable
+- uses: wealthcome-SAS/actions/check-pr-title@stable
+```
 
-<div class="text-sm text-gray-400">
-github.com/wealthcome-SAS/wealthcome-meta · Actions · prerelease.yml
+<div class="grid grid-cols-3 gap-4 mt-6 text-sm">
+
+<div class="border rounded-lg p-3">
+
+**🔔 notify-slack**
+
+Wrapper `@slack/web-api` avec templating, tags owners, liens GitHub.
+
 </div>
 
+<div class="border rounded-lg p-3">
+
+**📦 publish**
+
+Build Docker, push ECR + SCW, retry intelligent, tag multi-registres.
+
+</div>
+
+<div class="border rounded-lg p-3">
+
+**🏷️ create-tag**
+
+Calcul semver contextuel (RC, prod, hotfix), push avec vérifications.
+
+</div>
+
+</div>
+
+<div class="mt-6 text-sm text-center text-gray-600 italic border-t pt-4">
+Une correction = tous les repos l'ont. Une amélioration aussi.
 </div>
 
 <!--
-Oral :
-- Cliquer sur le bouton pour ouvrir le workflow GitHub Actions en live.
-- Déclencher une run en direct si possible, sinon montrer une run récente.
+Oral (1m30) :
+- "Chaque équipe finit par avoir 5-10 patterns répétés dans sa CI."
+- "Slack notify, publish Docker, create-tag, check-pr-title..."
+- "On les a extraits dans un repo central `wealthcome-SAS/actions`."
+- "Versioning via tags stables — on peut upgrade progressivement."
+
+PÉPITE : "La CI/CD se pense comme du code applicatif : DRY, versioning, tests."
 -->
-
-::footer::
-
-_Du clic "Run workflow" au "✅ en prod" : ~4-5 minutes_
 
 ---
 
-# Le vrai défi : embarquer les leads
+# La leçon qu'on oublie souvent
 
-<div class="mt-4 space-y-3">
+<div class="mt-8 space-y-5">
 
-<div class="bg-gray-50 border-l-4 border-gray-300 p-3">
+<div class="bg-red-50 border-l-4 border-red-400 p-4">
 
-<div class="uppercase tracking-wider text-xs text-gray-500 mb-1">Décor</div>
+<div class="uppercase tracking-wider text-xs text-red-500 mb-1">Le problème</div>
 
-Nouvel arrivant. Une équipe en place, 3 ans de process installés. J'arrive avec ma solution d'automatisation.
-
-</div>
-
-<div class="bg-red-50 border-l-4 border-red-400 p-3">
-
-<div class="uppercase tracking-wider text-xs text-red-500 mb-1">Drame</div>
-
-Au démarrage : des bugs, des comportements inattendus. Un tag qui pointe trop loin, une release qui part avec des commits non prêts.<br/>
-→ Les leads se braquent. *"On te l'avait dit. On a toujours fait comme ça."*
+Au démarrage, des bugs : tag qui pointe trop loin, release embarquant des commits non prêts.<br/>
+Les leads se braquent : *"On te l'avait dit."*
 
 </div>
 
-<div class="bg-amber-50 border-l-4 border-amber-400 p-3">
+<div class="bg-amber-50 border-l-4 border-amber-400 p-4">
 
-<div class="uppercase tracking-wider text-xs text-amber-700 mb-1">Le vrai enjeu</div>
+<div class="uppercase tracking-wider text-xs text-amber-700 mb-1">Le coût réel</div>
 
 La technique, on l'a corrigée en quelques jours.<br/>
 **Regagner la confiance des leads a pris des mois.**
 
 </div>
 
+<div class="bg-green-50 border-l-4 border-green-500 p-4">
+
+<div class="uppercase tracking-wider text-xs text-green-700 mb-1">Ce qu'on a fait</div>
+
+Présentations tech + produit · réunions d'itération avec les leads · **rôle tournant** sur le process.
+
+</div>
+
+</div>
+
+<div class="mt-6 text-center text-lg italic text-gray-600 border-t pt-4">
+Automatiser un process, ce n'est pas le déléguer. C'est le partager.
 </div>
 
 <!--
-Oral (1m30) :
-- "La plus grosse galère, ce n'était pas la technique."
-- "C'était d'embarquer les leads."
-- "Au démarrage, l'automatisation a eu ses bugs — un tag qui pointe trop loin, une release qui embarque des commits pas prêts."
-- "Et chaque incident, même mineur, a renforcé les sceptiques : 'on te l'avait dit'."
-- "Le bug technique, on le patche en 2 jours."
-- "La confiance perdue, ça prend des mois à reconstruire."
-- [Tone : 'j'ai mal amené le sujet au début' plutôt que 'ils ne voulaient rien entendre']
-
-TRANSITION vers 7.3 :
-"Voilà comment on a fait."
--->
-
----
-
-# Le vrai coût : un process isolé
-
-<div class="text-gray-500 italic text-sm mb-1">
-Le bug technique était gérable. Le vrai problème était ailleurs.
-</div>
-
-<div class="text-center text-sm font-medium uppercase tracking-wider text-gray-700 mb-2">
-Comment on a reconstruit la confiance
-</div>
-
-<div class="space-y-2">
-
-<div class="flex items-center gap-4 bg-blue-50 p-3 rounded-lg">
-<div class="text-3xl shrink-0">📢</div>
-<div>
-
-**1 · Présentations aux équipes tech + produit**
-
-<span class="text-gray-600 text-sm">Rendre l'opaque visible</span>
-
-</div>
-</div>
-
-<div class="flex items-center gap-4 bg-blue-50 p-3 rounded-lg">
-<div class="text-3xl shrink-0">🔄</div>
-<div>
-
-**2 · Réunions d'itération avec les leads**
-
-<span class="text-gray-600 text-sm">Co-construire, pas imposer</span>
-
-</div>
-</div>
-
-<div class="flex items-center gap-4 bg-blue-50 p-3 rounded-lg">
-<div class="text-3xl shrink-0">🎓</div>
-<div>
-
-**3 · Rôle tournant sur le process**
-
-<span class="text-gray-600 text-sm">Chacun se fait son propre avis, devient ambassadeur</span>
-
-</div>
-</div>
-
-</div>
-
-<!--
-Oral (1m30-1m45) :
-- "Bug technique gérable. Vrai problème : personne ne comprenait le process."
-- "J'avais construit un outil — pas un savoir partagé."
-- [Détailler les 3 actions]
-- "Rôle tournant : ma plus grande fierté. Chaque lead porte le process à tour de rôle. Se forge son propre avis, devient ambassadeur."
-
-PUNCHLINE (oral, pas sur slide) :
-"Automatiser un process, ce n'est pas le déléguer à une machine. C'est le partager avec l'équipe."
--->
-
----
-layout: center
-class: text-center
-title: Ce qu'on a retenu
----
-
-<div class="space-y-10">
-
-<div class="text-sm uppercase tracking-wider text-gray-500">Ce qu'on a retenu</div>
-
-<div class="text-4xl font-light">
-Pas discipline <span class="italic text-gray-400">ou</span> automatisation.
-</div>
-
-<div class="text-2xl font-light space-y-2">
-
-Discipline pour **décider**.
-
-Automatisation pour **exécuter**.
-
-</div>
-
-<div class="text-xl text-gray-600 italic mt-10">
-Tout ce qui dépasse 5 minutes de répétitif<br/>
-mérite d'être automatisé.
-</div>
-
-</div>
-
-<!--
-Oral (30-45s) — slide-respiration :
-- "Avant de parler des résultats, une phrase qu'on a retenue."
-- [Lire calmement]
-- "Ce n'est pas un slogan. C'est une règle qu'on s'impose."
+Oral (2m) :
+- "Je voudrais finir la partie technique par une leçon que j'ai apprise à la dure."
+- "Les bugs du début ont braqué les leads. Normal."
+- "Ce que j'ai mal fait : construire un outil sans construire un savoir partagé."
+- "Ce qu'on a fait pour corriger : présentations, itérations, rôle tournant."
+- "Le rôle tournant : ma plus grande fierté. Chaque lead porte le process à tour de rôle. Il se forge son avis, devient ambassadeur."
+- "Automatiser un process, ce n'est pas le déléguer à une machine. C'est le partager avec l'équipe."
 -->
 
 ---
@@ -1015,9 +925,7 @@ Oral (30-45s) — slide-respiration :
 
 <div class="text-center">
 
-<div class="text-5xl font-light tracking-tight">
-<span class="text-gray-400">×4</span>
-</div>
+<div class="text-5xl font-light tracking-tight">×4</div>
 
 <div class="text-sm uppercase tracking-wider text-gray-500 mt-3">MEPs prod / semaine</div>
 
@@ -1025,43 +933,36 @@ Oral (30-45s) — slide-respiration :
 
 <div class="text-center">
 
-<div class="text-5xl font-light tracking-tight">
-<span class="text-gray-400">45m</span> → 4m
-</div>
+<div class="text-5xl font-light tracking-tight">100%</div>
 
-<div class="text-sm uppercase tracking-wider text-gray-500 mt-3">Durée d'une MEP</div>
+<div class="text-sm uppercase tracking-wider text-gray-500 mt-3">succès pipelines prod</div>
 
 </div>
 
 <div class="text-center">
 
-<div class="text-5xl font-light tracking-tight">
-<span class="text-gray-400">3</span> → 1
-</div>
+<div class="text-5xl font-light tracking-tight">-30%</div>
 
-<div class="text-sm uppercase tracking-wider text-gray-500 mt-3">Personnes mobilisées</div>
+<div class="text-sm uppercase tracking-wider text-gray-500 mt-3">durée des pipelines</div>
 
 </div>
 
 </div>
 
-<div class="mt-10 border rounded-lg p-5 text-center text-gray-700 space-y-2">
+<div class="mt-12 text-center text-2xl font-light">
+Plus souvent. Plus fiable. Plus vite.
+</div>
 
-Prod <span class="font-semibold">×4 plus fréquent</span> <span class="text-gray-500">(1.3 → 5.7 MEPs/sem)</span> · pipeline <span class="font-semibold">17min → 12min</span> <span class="text-gray-500">(-29%)</span>
-
-Hotfixes <span class="font-semibold text-green-700">36 → 3</span> <span class="text-gray-500">(-91%)</span>
-
-Taux de succès CI prod <span class="font-semibold text-green-700">~70% → 100%</span>
-
+<div class="mt-2 text-center text-base text-gray-500 italic">
+Et ça ne mobilise plus qu'1 développeur, en 2 clics.
 </div>
 
 <!--
-Oral (1m) :
-- "3 chiffres. Volume, vitesse, humain."
-- "Fréquence prod ×4 — 1.3 → 5.7 MEPs/semaine. Et chaque MEP coûte 45min × 3 personnes avant, 4min × 1 aujourd'hui."
-- "Les pipelines eux-mêmes sont plus rapides : prod 17min → 12min en moyenne (-29%)."
-- "La préprod : ×3.3. 7.5 → 24.7 déploiements/semaine. L'équipe valide plus souvent, plus tôt."
-- "Et les hotfixes : 36 → 3 (-91%). Pas que des hotfix bien gérés — des hotfix qui n'ont plus besoin d'exister, parce que main est toujours à jour."
+Oral (45s) :
+- "3 chiffres. Volume, fiabilité, vitesse."
+- "Fréquence prod ×4 — 1.3 → 5.7 MEPs/semaine."
+- "100% de succès sur backend. Avant, on était à 54%."
+- "Pipelines -30%. Alors qu'on a ajouté des étapes au passage."
 
 PÉPITE : "Les personnes les plus sceptiques au début sont celles qui s'inquiètent aujourd'hui si le pipeline a 5 min de retard."
 -->
@@ -1070,81 +971,7 @@ PÉPITE : "Les personnes les plus sceptiques au début sont celles qui s'inquiè
 
 # Ce que l'équipe en dit
 
-<div class="flex flex-col items-center justify-center mt-6">
-
-<Transition name="testimony" mode="out-in">
-  <div :key="current" class="border rounded-xl p-6 flex flex-col gap-4 w-full max-w-xl shadow-sm">
-    <span class="text-base italic text-gray-700 leading-relaxed">"{{ testimonies[current].quote }}"</span>
-    <div class="flex items-center gap-3 mt-2">
-      <img :src="testimonies[current].img" class="w-10 h-10 rounded-full object-cover shrink-0" />
-      <div>
-        <div class="font-semibold text-sm">{{ testimonies[current].name }}</div>
-        <div class="text-xs text-gray-500">{{ testimonies[current].role }}</div>
-      </div>
-    </div>
-  </div>
-</Transition>
-
-<div class="flex gap-2 mt-6">
-  <button v-for="(_, i) in testimonies" :key="i" @click="goTo(i)"
-    class="w-2 h-2 rounded-full transition-colors duration-300"
-    :class="i === current ? 'bg-gray-700' : 'bg-gray-300'" />
-</div>
-
-</div>
-
-<style>
-.testimony-enter-active, .testimony-leave-active { transition: opacity 0.5s, transform 0.5s; }
-.testimony-enter-from { opacity: 0; transform: translateY(12px); }
-.testimony-leave-to { opacity: 0; transform: translateY(-12px); }
-</style>
-
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-
-const testimonies = [
-  {
-    name: 'Solène Oruezabal',
-    role: 'Équipe produit',
-    img: '/solene.png',
-    quote: "Depuis le changement, c'est clairement la charge mentale qui a changé. Je sais que c'est automatique — plus besoin de relancer 25 fois les équipes dans la journée.",
-  },
-  {
-    name: 'Rémi Poulenard',
-    role: 'Developer · Wealthcome',
-    img: '/remi.jpeg',
-    quote: "Les déploiements sont désormais simplifiés, génèrent moins de conflits et mobilisent moins de temps. Résultat : une équipe plus confiante et une vélocité de livraison nettement améliorée.",
-  },
-  {
-    name: 'Martin Pinaud',
-    role: 'Équipe produit',
-    img: '/martin.jpeg',
-    quote: "La chose qui a changé depuis qu'on a le nouveau process, c'est l'organisation. On teste plus facilement, on a une meilleure visualisation de tout ce qui passe en prod/preprod. Pour faire des retours à la direction sur les nouveautés des mises en prod, c'est beaucoup plus simple.",
-  },
-  {
-    name: 'Jonathan Lacoste',
-    role: 'CPO · Wealthcome',
-    img: '/jonathan.jpeg',
-    quote: "Clairement le changelog clair des MEP et la rapidité d'exécution. La régularité des preprod. Le staging pour environnement de test des nouvelles features. On maîtrise ce qui se passe !",
-  },
-]
-
-const current = ref(0)
-let timer
-
-function goTo(i) {
-  current.value = i
-  clearInterval(timer)
-  timer = setInterval(next, 4000)
-}
-
-function next() {
-  current.value = (current.value + 1) % testimonies.length
-}
-
-onMounted(() => { timer = setInterval(next, 4000) })
-onUnmounted(() => clearInterval(timer))
-</script>
+<TestimonyCarousel />
 
 <!--
 Oral (1m) :
@@ -1153,9 +980,10 @@ Oral (1m) :
 
 PÉPITE : "L'automatisation réussie, c'est celle qui rend le travail des autres plus léger."
 -->
+
 ---
 
-# Je release : `@axelmth/repoflow`
+# `@axelmth/repoflow` — Installez-le
 
 <div class="text-center text-lg text-gray-600 italic mt-4 mb-8">
 Orchestrer des meta-repositories, en ligne de commande.
@@ -1169,7 +997,7 @@ Orchestrer des meta-repositories, en ligne de commande.
 
 **Bootstrap**
 
-<span class="text-sm text-gray-600">`repoflow init` — config générée par wizard interactif en 2 minutes</span>
+<span class="text-sm text-gray-600">`repoflow init` — wizard interactif, 2 minutes.</span>
 
 </div>
 
@@ -1179,7 +1007,7 @@ Orchestrer des meta-repositories, en ligne de commande.
 
 **Orchestration**
 
-<span class="text-sm text-gray-600">`sync`, `status`, `exec`, `doctor` — les commandes classiques sur N repos d'un coup</span>
+<span class="text-sm text-gray-600">`sync`, `status`, `exec`, `doctor` — N repos d'un coup.</span>
 
 </div>
 
@@ -1189,13 +1017,13 @@ Orchestrer des meta-repositories, en ligne de commande.
 
 **Release flow**
 
-<span class="text-sm text-gray-600">Tagging RC/prod, changelog agrégé, Slack, Actions réutilisables — *à venir en v0.2*</span>
+<span class="text-sm text-gray-600">Tagging RC/prod, changelog, Slack — *v0.2 en cours*</span>
 
 </div>
 
 </div>
 
-<div class="mt-8 bg-gray-50 border rounded-lg p-4 text-sm">
+<div class="mt-8 bg-gray-50 border rounded-lg p-4 text-sm text-center">
 
 ```bash
 npm i -g @axelmth/repoflow
@@ -1205,84 +1033,158 @@ npm i -g @axelmth/repoflow
 
 <!--
 Oral (1m) :
-- "Depuis 17h, le package est publié sur npm. v0.1.0 — pre-alpha."
-- "Son job : t'aider à orchestrer des meta-repositories."
-- "Aujourd'hui, 2 piliers prêts à l'emploi :"
-- "   Bootstrap : tu lances repoflow init, wizard interactif, 2 minutes et tu as ton meta-repo."
-- "   Orchestration : les commandes sync, status, exec, doctor — tu pilotes N repos depuis un point central."
-- "Le 3e pilier — le release flow avec le tagging RC/prod et les notifs Slack que je vous ai montré — arrive dans la v0.2."
-- "Je l'utilise en interne depuis 1 mois, l'extraction OSS prend du temps. Repo ouvert aux PRs et issues."
+- "Le pkg est sur npm. v0.1.0, pre-alpha."
+- "2 piliers prêts : bootstrap et orchestration."
+- "Release flow complet arrive en v0.2 — les workflows sont prêts, il reste le packaging."
 
-PÉPITE : "Le nom est un hommage à Mateo del Norte, créateur du package meta il y a 10 ans. Sans son travail, on aurait tous réinventé la roue 10 fois. Cette fois, on la fait tourner."
-
+PÉPITE : "Hommage à Mateo del Norte. Package meta de 2015, plus maintenu. Cette fois on continue."
 -->
 
 ::footer::
 
-<div class="flex items-center justify-center gap-8">
-<code class="text-xs bg-gray-100 px-2 py-1 rounded">npm i -D @axelmth/repoflow</code>
-<span class="text-gray-500">🔗 npmjs.com/package/@axelmth/repoflow</span>
-<span class="text-xs text-gray-400">🧪 pre-alpha · github.com/AxelMth/repoflow</span>
+<div class="flex items-center justify-center gap-8 text-xs">
+<code class="bg-gray-100 px-2 py-1 rounded">npmjs.com/package/@axelmth/repoflow</code>
+<span class="text-gray-500">🔗 github.com/AxelMth/repoflow</span>
 </div>
 
 ---
 
-# Un repo modèle pour commencer
+# `repoflow-metarepo-example`
 
-<div class="text-sm text-gray-500 mb-8">
-🔗 github.com/AxelMth/repoflow-examples
+<div class="text-sm text-gray-500 mb-6">
+🔗 github.com/AxelMth/repoflow-metarepo-example
 </div>
 
 <div class="grid grid-cols-2 gap-6">
 
-<div class="border rounded-lg p-6">
+<div class="border rounded-lg p-5">
 
-<div class="text-4xl mb-3">📂</div>
+<div class="text-xs uppercase tracking-wider text-gray-600 mb-3">Ce qu'il contient</div>
 
-**monorepo-example**
-
-- Turborepo
-- React (front)
-- Fastify (back)
-- Contrats partagés
-- Déploiement Vercel + Fly.io
-
-</div>
-
-<div class="border rounded-lg p-6 bg-blue-50">
-
-<div class="text-4xl mb-3">📂</div>
-
-**metarepo-example**
-
-- pnpm workspaces
-- `@axelmth/repoflow` (releases)
-- 3 apps clonées via repos.json
-
-<span class="text-gray-500 italic text-sm">← notre approche</span>
+- `repoflow.config.ts` prêt à l'emploi
+- 3 workflows GitHub Actions :
+  - `prerelease.yml`
+  - `release.yml`
+  - `hotfix-prod.yml` + `hotfix-preprod.yml`
+- Actions composites : `create-tag`, `notify-slack`
+- README avec setup step-by-step
 
 </div>
 
+<div class="border rounded-lg p-5 bg-blue-50">
+
+<div class="text-xs uppercase tracking-wider text-blue-700 mb-3">Comment l'utiliser</div>
+
+```bash
+# 1. Fork ou clone
+git clone https://github.com/AxelMth/\
+  repoflow-metarepo-example
+
+# 2. Installer
+cd repoflow-metarepo-example
+pnpm install
+
+# 3. Configurer vos repos
+$EDITOR repoflow.config.ts
+
+# 4. Lancer
+pnpm sync
+```
+
 </div>
 
-<div class="mt-8 text-sm text-gray-600">
+</div>
 
-→ 2 setups prêts à cloner · CI/CD fonctionnelle · Documentation étape par étape
-
+<div class="mt-6 text-center text-sm text-gray-600 italic">
+Le code du talk, littéralement. Prêt à cloner, prêt à forker.
 </div>
 
 <!--
 Oral (1m) :
-- "Pkg sans exemple = API cryptique. Repo modèle avec 2 setups complets."
-- "1. Monorepo moderne : Turborepo, React, Fastify. Approche populaire."
-- "2. Exactement ce qu'on a : pnpm workspaces + meta qui orchestre 3 apps."
+- "Et pour que ce soit vraiment reproductible : un repo modèle."
+- "Vous clonez, vous configurez, vous êtes à peu près là où on est chez Wealthcome."
+- "Workflows fournis, actions partagées fournies, doc step-by-step."
 
-PÉPITE : "Pas un repo figé. Repo maintenu avec issues ouvertes. Vous utilisez Nx + Kubernetes bare-metal ? Ouvrez une issue, ajoutons un exemple."
+PÉPITE : "Si vous voulez contribuer, les issues sont ouvertes."
 -->
 
 ::footer::
 
-_💡 Le code du talk, littéralement._
+_💡 Clonez, forkez, testez. Les issues sont ouvertes._
+
+---
+
+# Questions fréquentes anticipées
+
+<div class="space-y-4 mt-4 text-sm">
+
+<div class="border-l-4 border-blue-400 pl-4">
+
+**❓ Pourquoi pas un monorepo ?**
+
+Parce que c'est une bascule coûteuse. Meta-repo = option intermédiaire qui ne casse pas l'existant. Chaque équipe décide quand (ou jamais) elle passe en monorepo.
+
+</div>
+
+<div class="border-l-4 border-blue-400 pl-4">
+
+**❓ Pourquoi pas `meta` de Mateo del Norte ?**
+
+Plus maintenu depuis 2020. Stack 2026 = TypeScript + pnpm + GitHub Actions natifs. `repoflow` reprend la philosophie, modernise la stack.
+
+</div>
+
+<div class="border-l-4 border-blue-400 pl-4">
+
+**❓ 100% de succès sur 21 jours, c'est significatif ?**
+
+Non, c'est court. Mais comparé à 54% sur 90 jours avant, la tendance est franche. Prochaine version du talk : 3 mois de recul.
+
+</div>
+
+<div class="border-l-4 border-blue-400 pl-4">
+
+**❓ 2 clics, pas 1 ?**
+
+Le 2e clic, c'est le "Publish" sur la release en draft. Un filet humain volontaire, après qu'un tag ait pointé trop loin au démarrage. Feature, pas dette.
+
+</div>
+
+</div>
+
+<!--
+Ces Q&A sont à utiliser SI on me les pose. Sinon, je passe directement à la slide suivante.
+
+Philosophie : anticiper les objections = montrer qu'on a réfléchi.
+-->
+
+---
+layout: center
+---
+
+<div class="text-center space-y-8">
+
+<div class="text-sm uppercase tracking-widest text-gray-400">À vous</div>
+
+<div class="text-5xl font-light">
+Vos questions ?
+</div>
+
+<div class="text-lg text-gray-500 italic max-w-lg mx-auto">
+Celles auxquelles je ne sais pas répondre,<br/>
+je vous dis "je ne sais pas" — on en discute après.
+</div>
+
+</div>
+
+<!--
+Slide de respiration pour la Q&A.
+
+Oral :
+- "Toutes vos questions sont bienvenues."
+- "Y compris celles qui remettent en question ce que je viens de dire."
+- "Celles auxquelles je ne sais pas répondre, je vous dis 'je ne sais pas' — on en discute après."
+-->
 
 ---
 layout: center
@@ -1313,11 +1215,15 @@ class: text-center
 </div>
 </div>
 
-<div class="pt-8 space-y-3 text-lg">
+<div class="pt-4 space-y-2 text-base">
 
-💼 https://linkedin.com/in/axel-mathieu-le-gall-361b1510a
+💼 linkedin.com/in/axel-mathieu-le-gall-361b1510a
 
-💻 https://github.com/AxelMth
+💻 github.com/AxelMth
+
+📦 npmjs.com/package/@axelmth/repoflow
+
+🧪 github.com/AxelMth/repoflow-metarepo-example
 
 </div>
 
@@ -1326,14 +1232,9 @@ class: text-center
 </div>
 
 <!--
-Slide persistante pendant toute la Q&A.
-
 Oral :
-- "Voilà. Grand merci à [quelqu'un], à l'équipe Wealthcome, à vous."
-- "Cette slide reste. Le QR : feedback en 2 minutes."
-- "Vos questions."
+- "Grand merci à l'équipe Wealthcome, à BordeauxJS, à vous."
+- "Cette slide reste pendant la Q&A. Le QR : feedback en 2 minutes."
 
-PÉPITE Q&A : "Celles auxquelles je ne sais pas répondre, je vous dis 'je ne sais pas' — on en discute après."
-
-⚠️ TODO : {Prénom Nom}, {handle}, qr-feedback.svg
+⚠️ TODO : qr-feedback.svg
 -->
