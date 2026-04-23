@@ -58,17 +58,19 @@ const testimonies = [
 const current = ref(0)
 let timer
 
+const intervalMs = 8000
+
 function goTo(i) {
   current.value = i
   clearInterval(timer)
-  timer = setInterval(next, 4000)
+  timer = setInterval(next, intervalMs)
 }
 
 function next() {
   current.value = (current.value + 1) % testimonies.length
 }
 
-onMounted(() => { timer = setInterval(next, 4000) })
+onMounted(() => { timer = setInterval(next, intervalMs) })
 onUnmounted(() => clearInterval(timer))
 </script>
 
